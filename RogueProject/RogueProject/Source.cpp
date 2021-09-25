@@ -14,10 +14,9 @@ unsigned int playerPositionX = 5;
 unsigned int playerPositionY = 5;
 unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
-unsigned int healthPosX = 8;
-unsigned int itemPosX = 12;
-unsigned int itemPosY = 8;
-unsigned int healthPosY = 8;
+unsigned int itemPosX;
+unsigned int itemPosY;
+string itemName;
 bool render = true;
 
 
@@ -25,7 +24,6 @@ unsigned int maxHealth = 25;
 unsigned int health = 20;
 
 char playerChar = '@';
-char healthChar = 'H';
 char itemChar = '*';
 
 
@@ -42,15 +40,6 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 "a                  a",
 "aaaaaaaaaaaaaaaaaaaa"
 };
-
-class weapon
-{
-	string name = "Excalibur";
-	
-};
-
-weapon name;
-vector<weapon> inventory(5);
 
 
 void gotoScreenPosition(short C, short R)
@@ -109,31 +98,24 @@ void renderPlayer()
 	Sleep(120);
 }
 
+
 void renderItem()
 {
-	gotoScreenPosition(itemPosX, itemPosY);
-	if (render == true)
-	{
-		std::cout << itemChar;
-	}
-	else if (render == false)
-	{
-		itemPosX = NULL;
-		itemPosY = NULL;
-	}
-}
+	itemPosX = rand() % LEVELWIDTH;
+	itemPosY = rand() % LEVELHEIGHT;
 
-void renderHealth()
-{
-	gotoScreenPosition(healthPosX, healthPosY);
-	if (render == true)
+	if (map[itemPosY][itemPosX] == ' ')
 	{
-		std::cout << healthChar;
-	}
-	else if (render == false)
-	{
-		healthPosX = NULL;
-		healthPosY = NULL;
+		gotoScreenPosition(itemPosX, itemPosY);
+		if (render == true)
+		{
+			std::cout << itemChar;
+		}
+		else if (render == false)
+		{
+			itemPosX = NULL;
+			itemPosY = NULL;
+		}
 	}
 }
 
@@ -149,12 +131,6 @@ void handleCollisions()
 
 	int currentPosX = playerPositionX;
 	int currentPosY = playerPositionY;
-
-	if (newPlayerPositionX == healthPosX && newPlayerPositionY == healthPosY)
-	{
-		health = health + 5;
-		render = false;
-	}
 
 	switch (nextMove)
 	{
@@ -189,6 +165,8 @@ void main()
 
 	renderMap();
 
+	renderItem();
+
 	while (true)
 	{
 		// Handles the input and updates the players position
@@ -200,9 +178,8 @@ void main()
 		// Render the GUI
 		renderGUI();
 
-		renderHealth();
 
-		renderItem();
+		
 
 		handleCollisions();
 
