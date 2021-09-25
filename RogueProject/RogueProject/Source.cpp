@@ -1,6 +1,10 @@
 #include <windows.h>
 #include <iostream>
 #include <string>
+#include <vector>
+using namespace std;
+
+//System(CLS) - clear screen - use functions
 
 const int LEVELWIDTH = 20;
 const int LEVELHEIGHT = 10;
@@ -11,6 +15,8 @@ unsigned int playerPositionY = 5;
 unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
 unsigned int healthPosX = 8;
+unsigned int itemPosX = 12;
+unsigned int itemPosY = 8;
 unsigned int healthPosY = 8;
 bool render = true;
 
@@ -20,6 +26,7 @@ unsigned int health = 20;
 
 char playerChar = '@';
 char healthChar = 'H';
+char itemChar = '*';
 
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
@@ -35,6 +42,16 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 "a                  a",
 "aaaaaaaaaaaaaaaaaaaa"
 };
+
+class weapon
+{
+	string name = "Excalibur";
+	
+};
+
+weapon name;
+vector<weapon> inventory(5);
+
 
 void gotoScreenPosition(short C, short R)
 {
@@ -89,10 +106,21 @@ void renderPlayer()
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
 
-
-
-
 	Sleep(120);
+}
+
+void renderItem()
+{
+	gotoScreenPosition(itemPosX, itemPosY);
+	if (render == true)
+	{
+		std::cout << itemChar;
+	}
+	else if (render == false)
+	{
+		itemPosX = NULL;
+		itemPosY = NULL;
+	}
 }
 
 void renderHealth()
@@ -140,10 +168,6 @@ void handleCollisions()
 		playerPositionX = newPlayerPositionX;
 		playerPositionY = newPlayerPositionY;
 		break;
-
-
-
-
 	}
 }
 
@@ -177,6 +201,8 @@ void main()
 		renderGUI();
 
 		renderHealth();
+
+		renderItem();
 
 		handleCollisions();
 
