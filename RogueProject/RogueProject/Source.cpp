@@ -10,10 +10,16 @@ unsigned int playerPositionX = 5;
 unsigned int playerPositionY = 5;
 unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
+unsigned int healthPosX = 8;
+unsigned int healthPosY = 8;
+bool render = true;
 
+
+unsigned int maxHealth = 25;
 unsigned int health = 20;
 
 char playerChar = '@';
+char healthChar = 'H';
 
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
@@ -25,7 +31,7 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 "a         a        a",
 "a                  a",
 "a                  a",
-"a             H    a",
+"a                  a",
 "a                  a",
 "aaaaaaaaaaaaaaaaaaaa"
 };
@@ -85,13 +91,28 @@ void renderPlayer()
 
 
 
+
 	Sleep(120);
+}
+
+void renderHealth()
+{
+	gotoScreenPosition(healthPosX, healthPosY);
+	if (render == true)
+	{
+		std::cout << healthChar;
+	}
+	else if (render == false)
+	{
+		healthPosX = NULL;
+		healthPosY = NULL;
+	}
 }
 
 void renderGUI()
 {
 	gotoScreenPosition(2, LEVELHEIGHT + 3);
-	std::cout << "Health: " << health;
+	std::cout << "Health: " << health << "/" << maxHealth;
 }
 
 void handleCollisions()
@@ -100,6 +121,12 @@ void handleCollisions()
 
 	int currentPosX = playerPositionX;
 	int currentPosY = playerPositionY;
+
+	if (newPlayerPositionX == healthPosX && newPlayerPositionY == healthPosY)
+	{
+		health = health + 5;
+		render = false;
+	}
 
 	switch (nextMove)
 	{
@@ -113,9 +140,9 @@ void handleCollisions()
 		playerPositionX = newPlayerPositionX;
 		playerPositionY = newPlayerPositionY;
 		break;
-	case 'H':
-		health++;
-		break;
+
+
+
 
 	}
 }
@@ -148,6 +175,8 @@ void main()
 
 		// Render the GUI
 		renderGUI();
+
+		renderHealth();
 
 		handleCollisions();
 
