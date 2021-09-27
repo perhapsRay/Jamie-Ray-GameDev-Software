@@ -5,8 +5,6 @@
 
 using namespace std;
 
-//System(CLS) - clear screen - use functions
-
 const int LEVELWIDTH = 20;
 const int LEVELHEIGHT = 10;
 
@@ -17,7 +15,7 @@ unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
-string potion;
+string potion = "Health potion.";
 string item;
 unsigned int itemNumber;
 vector<string> inventory;
@@ -62,18 +60,21 @@ void renderMap()
 	}
 }
 
+//Clears screen and prints inventory.
 void inventoryScreen()
 {
 	while (true)
 	{
 		system("CLS");
-		for (string s : inventory)
-			cout << s;
+		gotoScreenPosition(0, 0);
+		cout << inventory[0];
+
 		if (GetKeyState('I') & 0x8000)
 			break;
 	}
 }
 
+//Handles Input.
 void handleInput()
 {
 	//newPlayerPositionX = playerPositionX;
@@ -119,7 +120,7 @@ void renderPlayer()
 }
 
 
-
+//Handles item rendering.
 void renderItem()
 {
 	//srand(time(NULL));
@@ -134,6 +135,8 @@ void renderItem()
 	{
 		gotoScreenPosition(itemPosX, itemPosY);
 		std::cout << itemChar;
+		// Put it in the 
+		map[itemPosY][itemPosX] = itemChar;
 	}
 	else
 	{
@@ -169,12 +172,18 @@ void handleCollisions()
 		playerPositionX = newPlayerPositionX;
 		playerPositionY = newPlayerPositionY;
 		break;
+	case '*':
+		inventory.push_back(potion);
+		map[itemPosY][itemPosX] = ' ';
+		break;
 	}
 
-	if (playerPositionX == itemPosX && playerPositionY == itemPosY)
+	/*if (playerPositionX == itemPosX && playerPositionY == itemPosY)
 	{
 		inventory.push_back(potion);
-	}
+		itemPosX = NULL;
+		itemPosY = NULL;
+	}*/
 
 }
 
