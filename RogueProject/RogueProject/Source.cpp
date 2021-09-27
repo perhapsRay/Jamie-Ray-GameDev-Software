@@ -16,9 +16,9 @@ unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
 string potion = "Health potion.";
-string item;
+string item = "Sword.";
 unsigned int itemNumber;
-vector<string> inventory;
+vector<string> inventory(4);
 
 
 unsigned int maxHealth = 25;
@@ -63,23 +63,42 @@ void renderMap()
 //Clears screen and prints inventory.
 void inventoryScreen()
 {
-	while (true)
+	Sleep(120);
+
+	if (inventory.size() <= 0)
 	{
 		system("CLS");
 		gotoScreenPosition(0, 0);
-		cout << inventory[0];
+		cout << "Inventory is empty!";
+	}
+	else
+	{
+		for (int i = 0; i < inventory.size(); i++)
+		{
+			system("CLS");
+			gotoScreenPosition(0, 0);
+			cout << inventory[i] << endl;
+		}
+	}
 
+	while (true)
+	{
 		if (GetKeyState('I') & 0x8000)
+		{
+			system("CLS");
+			renderMap();
 			break;
+		}
 	}
 }
 
 //Handles Input.
 void handleInput()
 {
-	//newPlayerPositionX = playerPositionX;
-	//newPlayerPositionY = playerPositionY;
+	newPlayerPositionX = playerPositionX;
+	newPlayerPositionY = playerPositionY;
 
+	Sleep(120);
 	if (GetKeyState(VK_UP) & 0x8000 && map[playerPositionY - 1][playerPositionX] != 'a')
 	{
 		newPlayerPositionY = playerPositionY - 1;
@@ -111,12 +130,13 @@ void renderPlayer()
 	// Blank old enemy position
 	gotoScreenPosition(playerPositionX, playerPositionY);
 	std::cout << ' ';
+	map[playerPositionY][playerPositionX] = NULL;
 
 	// Draw new enemy position
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
+	map[newPlayerPositionY][newPlayerPositionX] = playerChar;
 
-	Sleep(120);
 }
 
 
@@ -125,27 +145,29 @@ void renderItem()
 {
 	//srand(time(NULL));
 	//srand((unsigned int)time(NULL));
-	//itemPosX = rand() % LEVELWIDTH;
-	//itemPosY = rand() % LEVELHEIGHT;
 
-	itemPosY = 8;
-	itemPosX = 8;
+	//itemPosY = 8;
+	//itemPosX = 8;
 
-	if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@')
+	//not working :( 
+	for (int i = 0; i < 2; i++)
 	{
-		gotoScreenPosition(itemPosX, itemPosY);
-		std::cout << itemChar;
-		// Put it in the 
-		map[itemPosY][itemPosX] = itemChar;
-	}
-	else
-	{
-		renderItem();
+		itemPosX = rand() % LEVELWIDTH;
+		itemPosY = rand() % LEVELHEIGHT;
+
+		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '*')
+		{
+			gotoScreenPosition(itemPosX, itemPosY);
+			std::cout << itemChar;
+			// Put it in the 
+			map[itemPosY][itemPosX] = itemChar;
+		}
+		else
+		{
+			renderItem();
+		}
 	}
 }
-
-
-
 
 void renderGUI()
 {
@@ -173,9 +195,18 @@ void handleCollisions()
 		playerPositionY = newPlayerPositionY;
 		break;
 	case '*':
-		inventory.push_back(potion);
-		map[itemPosY][itemPosX] = ' ';
+		itemNumber = rand() % 2;
+		if (itemNumber == 0)
+		{
+			inventory.push_back(potion);
+		}
+		else if (itemNumber == 1)
+		{
+			inventory.push_back(item);
+		}
 		break;
+
+
 	}
 
 	/*if (playerPositionX == itemPosX && playerPositionY == itemPosY)
@@ -205,6 +236,7 @@ void main()
 	renderMap();
 
 	renderItem();
+
 	
 
 	while (true)
@@ -212,14 +244,15 @@ void main()
 		// Handles the input and updates the players position
 		handleInput();
 
+		
+
 		// Render the scene
 		renderPlayer();
 
 		// Render the GUI
 		renderGUI();
 
-
-		handleCollisions();
+		
 
 		set_cursor(false);
 	}
