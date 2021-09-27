@@ -2,8 +2,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstdlib> 
-#include <ctime>
 
 using namespace std;
 
@@ -23,7 +21,6 @@ string potion;
 string item;
 unsigned int itemNumber;
 vector<string> inventory;
-bool render = true;
 
 
 unsigned int maxHealth = 25;
@@ -65,6 +62,18 @@ void renderMap()
 	}
 }
 
+void inventoryScreen()
+{
+	while (true)
+	{
+		system("CLS");
+		for (string s : inventory)
+			cout << s;
+		if (GetKeyState('I') & 0x8000)
+			break;
+	}
+}
+
 void handleInput()
 {
 	//newPlayerPositionX = playerPositionX;
@@ -89,6 +98,11 @@ void handleInput()
 	{
 		newPlayerPositionX = playerPositionX - 1;
 	}
+
+	if (GetKeyState('I') & 0x8000)
+	{
+		inventoryScreen();
+	}
 }
 
 void renderPlayer()
@@ -104,45 +118,22 @@ void renderPlayer()
 	Sleep(120);
 }
 
-void itemCheck()
-{
-	gotoScreenPosition(2, LEVELHEIGHT + 5);
-	std::cout << inventory[0];
-}
 
 
 void renderItem()
 {
-
+	//srand(time(NULL));
 	//srand((unsigned int)time(NULL));
-	itemPosX = rand() % LEVELWIDTH;
-	itemPosY = rand() % LEVELHEIGHT;
+	//itemPosX = rand() % LEVELWIDTH;
+	//itemPosY = rand() % LEVELHEIGHT;
 
-	
+	itemPosY = 8;
+	itemPosX = 8;
 
 	if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@')
 	{
 		gotoScreenPosition(itemPosX, itemPosY);
-		if (render == true)
-		{
-			std::cout << itemChar;
-		}
-		else if (render == false)
-		{
-			itemNumber = rand() % 2 + 1;
-			if (itemNumber == 1)
-			{
-				inventory.push_back(potion);
-			}
-			else if (itemNumber == 2)
-			{
-				inventory.push_back(item);
-			}
-			itemPosX = NULL;
-			itemPosY = NULL;
-			itemCheck();
-		}
-		
+		std::cout << itemChar;
 	}
 	else
 	{
@@ -150,15 +141,6 @@ void renderItem()
 	}
 }
 
-
-
-void inventoryScreen()
-{
-	if (GetKeyState('I') & 0x8000)
-	{
-		system("CLS");
-	}
-}
 
 
 
@@ -188,6 +170,12 @@ void handleCollisions()
 		playerPositionY = newPlayerPositionY;
 		break;
 	}
+
+	if (playerPositionX == itemPosX && playerPositionY == itemPosY)
+	{
+		inventory.push_back(potion);
+	}
+
 }
 
 void set_cursor(bool visible) {
@@ -208,7 +196,7 @@ void main()
 	renderMap();
 
 	renderItem();
-	inventoryScreen();
+	
 
 	while (true)
 	{
@@ -221,7 +209,6 @@ void main()
 		// Render the GUI
 		renderGUI();
 
-		
 
 		handleCollisions();
 
