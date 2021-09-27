@@ -18,7 +18,7 @@ unsigned int itemPosY;
 string potion = "Health potion.";
 string item = "Sword.";
 unsigned int itemNumber;
-vector<string> inventory(4);
+vector<string> inventory;
 
 
 unsigned int maxHealth = 25;
@@ -26,6 +26,7 @@ unsigned int health = 20;
 
 char playerChar = '@';
 char itemChar = '*';
+
 
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
@@ -60,36 +61,104 @@ void renderMap()
 	}
 }
 
+void itemCheck()
+{
+	itemNumber = rand() % 2;
+	if (itemNumber == 0)
+	{
+		inventory.push_back(potion);
+	}
+	else if (itemNumber == 1)
+	{
+		inventory.push_back(item);
+	}
+}
+
+bool handleCollisions(int y, int x)
+{
+	char nextMove = map[y][x];
+
+	switch (nextMove)
+	{
+	case 'a':
+		return false;
+		break;
+	case ' ':
+		return true;
+		break;
+	case '*':
+		itemCheck();
+		return true;
+		break;
+	default:
+		return true;
+	}
+}
+
+void dropItem(int thing)
+{
+	itemPosX = playerPositionX;
+	itemPosY = playerPositionY;
+	// Put it in the 
+	map[itemPosY][itemPosX] = itemChar;
+	inventory.erase(inventory.begin() + thing);
+}
+
 //Clears screen and prints inventory.
 void inventoryScreen()
 {
+	system("CLS");
 	Sleep(120);
 
 	if (inventory.size() <= 0)
 	{
-		system("CLS");
 		gotoScreenPosition(0, 0);
 		cout << "Inventory is empty!";
 	}
 	else
 	{
+		gotoScreenPosition(0, 0);
 		for (int i = 0; i < inventory.size(); i++)
 		{
-			system("CLS");
-			gotoScreenPosition(0, 0);
-			cout << inventory[i] << endl;
+			cout << i+1 << ". " << inventory[i] << endl;
 		}
 	}
 
 	while (true)
 	{
+
+		if (GetKeyState(VK_SPACE))
+		{
+			while (true)
+			{
+				if (GetKeyState(0x31))
+				{
+					dropItem(0);
+					break;
+				}
+				if (GetKeyState(0x32))
+				{
+					dropItem(1);
+					break;
+				}
+				if (GetKeyState(0x33))
+				{
+					dropItem(2);
+					break;
+				}
+			}
+			break;
+		}
+
+
 		if (GetKeyState('I') & 0x8000)
 		{
-			system("CLS");
-			renderMap();
+			
 			break;
 		}
 	}
+	system("CLS");
+	renderMap();
 }
 
 //Handles Input.
@@ -99,22 +168,22 @@ void handleInput()
 	newPlayerPositionY = playerPositionY;
 
 	Sleep(120);
-	if (GetKeyState(VK_UP) & 0x8000 && map[playerPositionY - 1][playerPositionX] != 'a')
+	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(playerPositionY - 1, playerPositionX))
 	{
 		newPlayerPositionY = playerPositionY - 1;
 	}
 
-	if (GetKeyState(VK_DOWN) & 0x8000 && map[playerPositionY + 1][playerPositionX] != 'a')
+	if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(playerPositionY + 1, playerPositionX))
 	{
 		newPlayerPositionY = playerPositionY + 1;
 	}
 
-	if (GetKeyState(VK_RIGHT) & 0x8000 && map[playerPositionY][playerPositionX + 1] != 'a')
+	if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX + 1))
 	{
 		newPlayerPositionX = playerPositionX + 1;
 	}
 
-	if (GetKeyState(VK_LEFT) & 0x8000 && map[playerPositionY][playerPositionX - 1] != 'a')
+	if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX - 1))
 	{
 		newPlayerPositionX = playerPositionX - 1;
 	}
@@ -130,13 +199,15 @@ void renderPlayer()
 	// Blank old enemy position
 	gotoScreenPosition(playerPositionX, playerPositionY);
 	std::cout << ' ';
-	map[playerPositionY][playerPositionX] = NULL;
+	map[playerPositionY][playerPositionX] = ' ';
 
 	// Draw new enemy position
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
-	map[newPlayerPositionY][newPlayerPositionX] = playerChar;
 
+	playerPositionX = newPlayerPositionX;
+	playerPositionY = newPlayerPositionY;
+	map[playerPositionY][playerPositionX] = playerChar;
 }
 
 
@@ -175,48 +246,7 @@ void renderGUI()
 	std::cout << "Health: " << health << "/" << maxHealth;
 }
 
-void handleCollisions()
-{
-	char nextMove = map[newPlayerPositionY][newPlayerPositionX];
 
-	int currentPosX = playerPositionX;
-	int currentPosY = playerPositionY;
-
-	switch (nextMove)
-	{
-	case 'a':
-		gotoScreenPosition(2, LEVELHEIGHT + 5);
-		newPlayerPositionX = currentPosX;
-		newPlayerPositionY = currentPosY;
-		std::cout << "Hit Wall";
-		break;
-	case ' ':
-		playerPositionX = newPlayerPositionX;
-		playerPositionY = newPlayerPositionY;
-		break;
-	case '*':
-		itemNumber = rand() % 2;
-		if (itemNumber == 0)
-		{
-			inventory.push_back(potion);
-		}
-		else if (itemNumber == 1)
-		{
-			inventory.push_back(item);
-		}
-		break;
-
-
-	}
-
-	/*if (playerPositionX == itemPosX && playerPositionY == itemPosY)
-	{
-		inventory.push_back(potion);
-		itemPosX = NULL;
-		itemPosY = NULL;
-	}*/
-
-}
 
 void set_cursor(bool visible) {
 	CONSOLE_CURSOR_INFO info;
@@ -244,15 +274,11 @@ void main()
 		// Handles the input and updates the players position
 		handleInput();
 
-		
-
 		// Render the scene
 		renderPlayer();
 
 		// Render the GUI
 		renderGUI();
-
-		
 
 		set_cursor(false);
 	}
