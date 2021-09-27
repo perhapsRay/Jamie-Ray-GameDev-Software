@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib> 
+#include <ctime>
+
 using namespace std;
 
 //System(CLS) - clear screen - use functions
@@ -16,7 +19,10 @@ unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
-string itemName;
+string potion;
+string item;
+unsigned int itemNumber;
+vector<string> inventory;
 bool render = true;
 
 
@@ -98,13 +104,23 @@ void renderPlayer()
 	Sleep(120);
 }
 
+void itemCheck()
+{
+	gotoScreenPosition(2, LEVELHEIGHT + 5);
+	std::cout << inventory[0];
+}
+
 
 void renderItem()
 {
+
+	//srand((unsigned int)time(NULL));
 	itemPosX = rand() % LEVELWIDTH;
 	itemPosY = rand() % LEVELHEIGHT;
 
-	if (map[itemPosY][itemPosX] == ' ')
+	
+
+	if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@')
 	{
 		gotoScreenPosition(itemPosX, itemPosY);
 		if (render == true)
@@ -113,11 +129,38 @@ void renderItem()
 		}
 		else if (render == false)
 		{
+			itemNumber = rand() % 2 + 1;
+			if (itemNumber == 1)
+			{
+				inventory.push_back(potion);
+			}
+			else if (itemNumber == 2)
+			{
+				inventory.push_back(item);
+			}
 			itemPosX = NULL;
 			itemPosY = NULL;
+			itemCheck();
 		}
+		
+	}
+	else
+	{
+		renderItem();
 	}
 }
+
+
+
+void inventoryScreen()
+{
+	if (GetKeyState('I') & 0x8000)
+	{
+		system("CLS");
+	}
+}
+
+
 
 void renderGUI()
 {
@@ -160,12 +203,12 @@ void main()
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
-
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
 
 	renderMap();
 
 	renderItem();
+	inventoryScreen();
 
 	while (true)
 	{
@@ -177,7 +220,6 @@ void main()
 
 		// Render the GUI
 		renderGUI();
-
 
 		
 
