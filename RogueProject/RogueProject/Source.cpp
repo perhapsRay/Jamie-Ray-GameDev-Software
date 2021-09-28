@@ -2,13 +2,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 using namespace std;
 
 const int LEVELWIDTH = 20;
 const int LEVELHEIGHT = 10;
-
-
 unsigned int playerPositionX = 5;
 unsigned int playerPositionY = 5;
 unsigned int newPlayerPositionX = playerPositionX;
@@ -21,14 +18,10 @@ unsigned int itemNumber;
 vector<string> inventory;
 vector<int> itemStore;
 vector<char> vItemChar;
-
-
 unsigned int maxHealth = 25;
 unsigned int health = 20;
-
 char playerChar = '@';
 char itemChar = '?';
-
 
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
@@ -55,6 +48,7 @@ void gotoScreenPosition(short C, short R)
 		GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
+//Renders the map.
 void renderMap()
 {
 	for (int i = 0; i < LEVELHEIGHT; i++)
@@ -63,6 +57,7 @@ void renderMap()
 	}
 }
 
+//Chooses random number between 1 and 2 to determine which item is picked up.
 void itemCheck()
 {
 	//srand(time(NULL));
@@ -79,6 +74,7 @@ void itemCheck()
 	}
 }
 
+//New item chars will add appropriate item to inventory.
 void itemPickup(char thing)
 {
 	switch (thing)
@@ -94,6 +90,8 @@ void itemPickup(char thing)
 	}
 }
 
+
+//Checks if position is wall, empty or item.
 bool handleCollisions(int y, int x)
 {
 	char nextMove = map[y][x];
@@ -123,7 +121,7 @@ bool handleCollisions(int y, int x)
 	}
 }
 
-
+//Assigns item a Char for when it is dropped.
 void itemAssign()
 {
 	vItemChar.push_back('+');
@@ -177,6 +175,7 @@ void inventoryScreen()
 		}
 	}
 
+	//Drop item.
 	while (true)
 	{
 		if (GetKeyState(VK_SPACE))
@@ -245,12 +244,12 @@ void handleInput()
 
 void renderPlayer()
 {
-	// Blank old enemy position
+	//Blank old player position.
 	gotoScreenPosition(playerPositionX, playerPositionY);
 	std::cout << ' ';
 	map[playerPositionY][playerPositionX] = ' ';
 
-	// Draw new enemy position
+	//Draw new player position.
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
 
@@ -264,11 +263,6 @@ void renderPlayer()
 void renderItem()
 {
 	//srand((unsigned int)time(NULL));
-
-	//itemPosY = 8;
-	//itemPosX = 8;
-
-	//not working :( 
 	for (int i = 0; i < 3; i++)
 	{
 		itemPosX = rand() % LEVELWIDTH;
@@ -278,7 +272,6 @@ void renderItem()
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
-			// Put it in the 
 			map[itemPosY][itemPosX] = itemChar;
 		}
 		else
@@ -287,15 +280,14 @@ void renderItem()
 		}
 	}
 }
-
+//Renders GUI elements.
 void renderGUI()
 {
 	gotoScreenPosition(2, LEVELHEIGHT + 3);
 	std::cout << "Health: " << health << "/" << maxHealth;
 }
 
-
-
+//Sets cursor invisible
 void set_cursor(bool visible) {
 	CONSOLE_CURSOR_INFO info;
 	info.dwSize = 100;
@@ -305,31 +297,32 @@ void set_cursor(bool visible) {
 
 void main()
 {
-
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
 
+	//Renders map.
 	renderMap();
 
+	//Renders items.
 	renderItem();
 
+	//Makes item have relevant char when it is dropped.
 	itemAssign();
-
-	
 
 	while (true)
 	{
-		// Handles the input and updates the players position
+		//Handles the input and updates the players position.
 		handleInput();
 
-		// Render the scene
+		//Render the scene.
 		renderPlayer();
 
-		// Render the GUI
+		//Render the GUI.
 		renderGUI();
 
+		//Makes cursor not visible.
 		set_cursor(false);
 	}
 
