@@ -16,16 +16,18 @@ unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
 string potion = "Health potion.";
-string item = "Sword.";
+string sword = "Sword.";
 unsigned int itemNumber;
 vector<string> inventory;
+vector<int> itemStore;
+vector<char> vItemChar;
 
 
 unsigned int maxHealth = 25;
 unsigned int health = 20;
 
 char playerChar = '@';
-char itemChar = '*';
+char itemChar = '?';
 
 
 
@@ -63,14 +65,31 @@ void renderMap()
 
 void itemCheck()
 {
+	//srand(time(NULL));
 	itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
 		inventory.push_back(potion);
+		itemStore.push_back(itemNumber);
 	}
 	else if (itemNumber == 1)
 	{
-		inventory.push_back(item);
+		inventory.push_back(sword);
+		itemStore.push_back(itemNumber);
+	}
+}
+
+void itemPickup()
+{
+	if (handleCollisions(playerPositionY, playerPositionX) == '+')
+	{
+		inventory.push_back(potion);
+		itemStore.push_back(0);
+	}
+	else if (handleCollisions(playerPositionY, playerPositionX) == '/')
+	{
+		inventory.push_back(sword);
+		itemStore.push_back(1);
 	}
 }
 
@@ -86,8 +105,16 @@ bool handleCollisions(int y, int x)
 	case ' ':
 		return true;
 		break;
-	case '*':
+	case '?':
 		itemCheck();
+		return true;
+		break;
+	case '+':
+		itemPickup();
+		return true;
+		break;
+	case '/':
+		itemPickup();
 		return true;
 		break;
 	default:
@@ -95,13 +122,39 @@ bool handleCollisions(int y, int x)
 	}
 }
 
+
+
+void itemAssign()
+{
+	vItemChar.push_back('+');
+	vItemChar.push_back('/');
+}
+
+//Drop item function.
 void dropItem(int thing)
 {
-	itemPosX = playerPositionX;
-	itemPosY = playerPositionY;
-	// Put it in the 
-	map[itemPosY][itemPosX] = itemChar;
-	inventory.erase(inventory.begin() + thing);
+	//Checks if position is wall, empty or item. If returns false the item can be placed on the spot.
+	if (handleCollisions(playerPositionY, playerPositionX + 1))
+	{
+		itemPosX = playerPositionX + 1;
+		itemPosY = playerPositionY;
+		cout << vItemChar[0];
+		//cout << itemChar;
+		// Put it in the 
+		map[itemPosY][itemPosX] = vItemChar[0];
+		inventory.erase(inventory.begin() + thing);
+		itemStore.erase(itemStore.begin() + thing);
+	}
+	//If returns true it will place it to the left of the player instead.
+	else
+	{
+		itemPosX = playerPositionX - 1;
+		itemPosY = playerPositionY;
+		cout << vItemChar[0];
+		map[itemPosY][itemPosX] = vItemChar[0];
+		inventory.erase(inventory.begin() + thing);
+		itemStore.erase(itemStore.begin() + thing);
+	}
 }
 
 //Clears screen and prints inventory.
@@ -126,7 +179,6 @@ void inventoryScreen()
 
 	while (true)
 	{
-
 		if (GetKeyState(VK_SPACE))
 		{
 			while (true)
@@ -149,11 +201,8 @@ void inventoryScreen()
 			}
 			break;
 		}
-
-
 		if (GetKeyState('I') & 0x8000)
 		{
-			
 			break;
 		}
 	}
@@ -214,19 +263,18 @@ void renderPlayer()
 //Handles item rendering.
 void renderItem()
 {
-	//srand(time(NULL));
 	//srand((unsigned int)time(NULL));
 
 	//itemPosY = 8;
 	//itemPosX = 8;
 
 	//not working :( 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '*')
+		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?')
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
@@ -266,6 +314,8 @@ void main()
 	renderMap();
 
 	renderItem();
+
+	itemAssign();
 
 	
 
