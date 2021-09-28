@@ -79,17 +79,18 @@ void itemCheck()
 	}
 }
 
-void itemPickup()
+void itemPickup(char thing)
 {
-	if (handleCollisions(playerPositionY, playerPositionX) == '+')
+	switch (thing)
 	{
+	case '+':
 		inventory.push_back(potion);
 		itemStore.push_back(0);
-	}
-	else if (handleCollisions(playerPositionY, playerPositionX) == '/')
-	{
+		break;
+	case '/':
 		inventory.push_back(sword);
 		itemStore.push_back(1);
+		break;
 	}
 }
 
@@ -110,18 +111,17 @@ bool handleCollisions(int y, int x)
 		return true;
 		break;
 	case '+':
-		itemPickup();
+		itemPickup('+');
 		return true;
 		break;
 	case '/':
-		itemPickup();
+		itemPickup('/');
 		return true;
 		break;
 	default:
 		return true;
 	}
 }
-
 
 
 void itemAssign()
