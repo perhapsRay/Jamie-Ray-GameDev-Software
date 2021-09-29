@@ -15,6 +15,7 @@ unsigned int itemPosY;
 string potion = "Health potion.";
 string sword = "Sword.";
 unsigned int itemNumber;
+unsigned int itemnum;
 vector<string> inventory;
 vector<int> itemStore;
 vector<char> vItemChar;
@@ -131,15 +132,23 @@ void itemAssign()
 //Drop item function.
 void dropItem(int thing)
 {
+
+	if (inventory[thing] == potion)
+	{
+		itemnum = 0;
+	}
+	else
+	{
+		itemnum = 1;
+	}
+
 	//Checks if position is wall, empty or item. If returns false the item can be placed on the spot.
 	if (handleCollisions(playerPositionY, playerPositionX + 1))
 	{
 		itemPosX = playerPositionX + 1;
 		itemPosY = playerPositionY;
-		cout << vItemChar[0];
-		//cout << itemChar;
-		// Put it in the 
-		map[itemPosY][itemPosX] = vItemChar[0];
+		cout << vItemChar[itemnum];
+		map[itemPosY][itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -148,8 +157,8 @@ void dropItem(int thing)
 	{
 		itemPosX = playerPositionX - 1;
 		itemPosY = playerPositionY;
-		cout << vItemChar[0];
-		map[itemPosY][itemPosX] = vItemChar[0];
+		cout << vItemChar[itemnum];
+		map[itemPosY][itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -268,7 +277,7 @@ void renderItem()
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?')
+		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
