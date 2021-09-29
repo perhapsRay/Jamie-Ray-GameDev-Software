@@ -58,10 +58,10 @@ void renderMap()
 	}
 }
 
-//Chooses random number between 1 and 2 to determine which item is picked up.
+//Chooses random number between 0 and 1 to determine which item is picked up.
 void itemCheck()
 {
-	//srand(time(NULL));
+	srand(time(NULL));
 	itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
@@ -91,6 +91,32 @@ void itemPickup(char thing)
 	}
 }
 
+//Allows item to be placed ontop of another.
+bool itemCollision(int y, int x)
+{
+	char nextMove = map[y][x];
+
+	switch (nextMove)
+	{
+	case 'a':
+		return false;
+		break;
+	case ' ':
+		return true;
+		break;
+	case '?':
+		return true;
+		break;
+	case '+':
+		return true;
+		break;
+	case '/':
+		return true;
+		break;
+	default:
+		return true;
+	}
+}
 
 //Checks if position is wall, empty or item.
 bool handleCollisions(int y, int x)
@@ -143,7 +169,7 @@ void dropItem(int thing)
 	}
 
 	//Checks if position is wall, empty or item. If returns false the item can be placed on the spot.
-	if (handleCollisions(playerPositionY, playerPositionX + 1))
+	if (itemCollision(playerPositionY, playerPositionX + 1))
 	{
 		itemPosX = playerPositionX + 1;
 		itemPosY = playerPositionY;
@@ -189,10 +215,12 @@ void inventoryScreen()
 	{
 		if (GetKeyState(VK_SPACE))
 		{
+			Sleep(120);
 			while (true)
 			{
 				if (GetKeyState(0x31))
 				{
+					Sleep(500);
 					dropItem(0);
 					break;
 				}
@@ -261,7 +289,6 @@ void renderPlayer()
 	//Draw new player position.
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
-
 	playerPositionX = newPlayerPositionX;
 	playerPositionY = newPlayerPositionY;
 	map[playerPositionY][playerPositionX] = playerChar;
