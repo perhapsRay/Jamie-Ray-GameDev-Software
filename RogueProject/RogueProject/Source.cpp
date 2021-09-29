@@ -12,6 +12,8 @@ unsigned int newPlayerPositionX = playerPositionX;
 unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
+unsigned int enemyPosX = 18;
+unsigned int enemyPosY = 3;
 string potion = "Health potion.";
 string sword = "Sword.";
 unsigned int itemNumber;
@@ -24,14 +26,16 @@ unsigned int health = 20;
 char playerChar = '@';
 char itemChar = '?';
 
+char enemyChar = 'e';
+
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 {
 "aaaaaaaaaaaaaaaaaaaa",
-"a         a        a",
-"a         a        a",
-"a         a        a",
-"a         a        a",
+"a                  a",
+"a                  a",
+"a                  a",
+"a                  a",
 "a                  a",
 "a                  a",
 "a                  a",
@@ -108,10 +112,10 @@ bool itemCollision(int y, int x)
 		return true;
 		break;
 	case '+':
-		return true;
+		return false;
 		break;
 	case '/':
-		return true;
+		return false;
 		break;
 	default:
 		return true;
@@ -168,7 +172,7 @@ void dropItem(int thing)
 		itemnum = 1;
 	}
 
-	//Checks if position is wall, empty or item. If returns false the item can be placed on the spot.
+	//Checks if position is wall, empty or item. If returns false the item cant be placed on the spot.
 	if (itemCollision(playerPositionY, playerPositionX + 1))
 	{
 		itemPosX = playerPositionX + 1;
@@ -178,8 +182,7 @@ void dropItem(int thing)
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
-	//If returns true it will place it to the left of the player instead.
-	else
+	else if (itemCollision(playerPositionY, playerPositionX - 1))
 	{
 		itemPosX = playerPositionX - 1;
 		itemPosY = playerPositionY;
@@ -187,6 +190,28 @@ void dropItem(int thing)
 		map[itemPosY][itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
+	}
+	else if ((itemCollision(playerPositionY + 1, playerPositionX)))
+	{
+		itemPosX = playerPositionX;
+		itemPosY = playerPositionY + 1;
+		cout << vItemChar[itemnum];
+		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		inventory.erase(inventory.begin() + thing);
+		itemStore.erase(itemStore.begin() + thing);
+	}
+	else if ((itemCollision(playerPositionY - 1, playerPositionX)))
+	{
+		itemPosX = playerPositionX;
+		itemPosY = playerPositionY - 1;
+		cout << vItemChar[itemnum];
+		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		inventory.erase(inventory.begin() + thing);
+		itemStore.erase(itemStore.begin() + thing);
+	}
+	else
+	{
+		
 	}
 }
 
@@ -252,30 +277,38 @@ void handleInput()
 	newPlayerPositionX = playerPositionX;
 	newPlayerPositionY = playerPositionY;
 
-	Sleep(120);
-	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(playerPositionY - 1, playerPositionX))
+	while (true)
 	{
-		newPlayerPositionY = playerPositionY - 1;
-	}
+		Sleep(120);
+		if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(playerPositionY - 1, playerPositionX))
+		{
+			newPlayerPositionY = playerPositionY - 1;
+			break;
+		}
 
-	if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(playerPositionY + 1, playerPositionX))
-	{
-		newPlayerPositionY = playerPositionY + 1;
-	}
+		if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(playerPositionY + 1, playerPositionX))
+		{
+			newPlayerPositionY = playerPositionY + 1;
+			break;
+		}
 
-	if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX + 1))
-	{
-		newPlayerPositionX = playerPositionX + 1;
-	}
+		if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX + 1))
+		{
+			newPlayerPositionX = playerPositionX + 1;
+			break;
+		}
 
-	if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX - 1))
-	{
-		newPlayerPositionX = playerPositionX - 1;
-	}
+		if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX - 1))
+		{
+			newPlayerPositionX = playerPositionX - 1;
+			break;
+		}
 
-	if (GetKeyState('I') & 0x8000)
-	{
-		inventoryScreen();
+		if (GetKeyState('I') & 0x8000)
+		{
+			inventoryScreen();
+			break;
+		}
 	}
 }
 
@@ -304,7 +337,8 @@ void renderItem()
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
+		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || 
+			map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
@@ -316,6 +350,49 @@ void renderItem()
 		}
 	}
 }
+
+//Renders enemy
+void renderEnemy()
+{
+	if (map[enemyPosY][enemyPosX] == ' ')
+	{
+		gotoScreenPosition(enemyPosX, enemyPosY);
+		std::cout << enemyChar;
+		map[enemyPosY][enemyPosX] = enemyChar;
+	}
+	else
+	{
+		renderEnemy();
+	}
+}
+
+//Lets enemy move toward player
+void moveEnemy()
+{
+	if (enemyPosX > playerPositionX)
+	{
+		gotoScreenPosition(enemyPosX, enemyPosY);
+		std::cout << ' ';
+		map[enemyPosY][enemyPosX] = ' ';
+
+		enemyPosX = enemyPosX - 1;
+		gotoScreenPosition(enemyPosX, enemyPosY);
+		std::cout << enemyChar;
+		map[enemyPosY][enemyPosX] = enemyChar;
+	}
+	else if (enemyPosX < playerPositionX)
+	{
+		gotoScreenPosition(enemyPosX, enemyPosY);
+		std::cout << ' ';
+		map[enemyPosY][enemyPosX] = ' ';
+
+		enemyPosX = enemyPosX + 1;
+		gotoScreenPosition(enemyPosX, enemyPosY);
+		std::cout << enemyChar;
+		map[enemyPosY][enemyPosX] = enemyChar;
+	}
+}
+
 //Renders GUI elements.
 void renderGUI()
 {
@@ -344,9 +421,13 @@ void main()
 	//Renders items.
 	renderItem();
 
+	renderEnemy();
+
 	//Makes item have relevant char when it is dropped.
 	itemAssign();
 
+	//Initial player render.
+	renderPlayer();
 	while (true)
 	{
 		//Handles the input and updates the players position.
@@ -354,6 +435,8 @@ void main()
 
 		//Render the scene.
 		renderPlayer();
+
+		moveEnemy();
 
 		//Render the GUI.
 		renderGUI();
