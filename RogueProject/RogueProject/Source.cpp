@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <sstream>
 using namespace std;
 
 const int LEVELWIDTH = 20;
@@ -31,17 +33,19 @@ char enemyChar = 'e';
 
 char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 {
-"aaaaaaaaaaaaaaaaaaaa",
-"a                  a",
-"a                  a",
-"a                  a",
-"a                  a",
-"a                  a",
-"a                  a",
-"a                  a",
-"a                  a",
-"aaaaaaaaaaaaaaaaaaaa"
+"####################",
+"#..................#",
+"#..................#",
+"#..................#",
+"#..................#",
+"#..................#",
+"#..................#",
+"#..................#",
+"#..................#",
+"####################"
 };
+
+
 
 
 void gotoScreenPosition(short C, short R)
@@ -52,6 +56,37 @@ void gotoScreenPosition(short C, short R)
 	SetConsoleCursorPosition(
 		GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
+
+
+void readMap()
+{
+	int numLines = 0;
+	string line;
+	ifstream myfile("map_1.txt");
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
+		{
+			numLines++;
+		}
+		cout << numLines;
+		myfile.close();
+	}
+}
+
+/*void readMap()
+{
+	char ch;
+	ifstream myfile("map_1.txt");
+	if (myfile.is_open())
+	{
+		while (myfile.get(ch))
+		{
+			cout << ch << '\n';
+		}
+		myfile.close();
+	}
+}*/
 
 //Renders the map.
 void renderMap()
@@ -102,10 +137,10 @@ bool itemCollision(int y, int x)
 
 	switch (nextMove)
 	{
-	case 'a':
+	case '#':
 		return false;
 		break;
-	case ' ':
+	case '.':
 		return true;
 		break;
 	case '?':
@@ -129,10 +164,10 @@ bool handleCollisions(int y, int x)
 
 	switch (nextMove)
 	{
-	case 'a':
+	case '#':
 		return false;
 		break;
-	case ' ':
+	case '.':
 		return true;
 		break;
 	case '?':
@@ -316,8 +351,8 @@ void renderPlayer()
 {
 	//Blank old player position.
 	gotoScreenPosition(playerPositionX, playerPositionY);
-	std::cout << ' ';
-	map[playerPositionY][playerPositionX] = ' ';
+	std::cout << '.';
+	map[playerPositionY][playerPositionX] = '.';
 
 	//Draw new player position.
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
@@ -337,7 +372,7 @@ void renderItem()
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == ' ' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || 
+		if (map[itemPosY][itemPosX] == '.' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || 
 			map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
@@ -354,7 +389,7 @@ void renderItem()
 //Renders enemy
 void renderEnemy()
 {
-	if (map[enemyPosY][enemyPosX] == ' ')
+	if (map[enemyPosY][enemyPosX] == '.')
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << enemyChar;
@@ -372,8 +407,8 @@ void moveEnemy()
 	if (enemyPosX > playerPositionX)
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
-		std::cout << ' ';
-		map[enemyPosY][enemyPosX] = ' ';
+		std::cout << '.';
+		map[enemyPosY][enemyPosX] = '.';
 
 		enemyPosX = enemyPosX - 1;
 		gotoScreenPosition(enemyPosX, enemyPosY);
@@ -383,8 +418,8 @@ void moveEnemy()
 	else if (enemyPosX < playerPositionX)
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
-		std::cout << ' ';
-		map[enemyPosY][enemyPosX] = ' ';
+		std::cout << '.';
+		map[enemyPosY][enemyPosX] = '.';
 
 		enemyPosX = enemyPosX + 1;
 		gotoScreenPosition(enemyPosX, enemyPosY);
@@ -428,6 +463,8 @@ void main()
 
 	//Initial player render.
 	renderPlayer();
+
+
 	while (true)
 	{
 		//Handles the input and updates the players position.
