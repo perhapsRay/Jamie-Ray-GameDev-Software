@@ -6,8 +6,8 @@
 #include <sstream>
 using namespace std;
 
-const int LEVELWIDTH = 20;
-const int LEVELHEIGHT = 10;
+//const int LEVELWIDTH = 20;
+//const int LEVELHEIGHT = 10;
 unsigned int playerPositionX = 5;
 unsigned int playerPositionY = 5;
 unsigned int newPlayerPositionX = playerPositionX;
@@ -31,7 +31,9 @@ char itemChar = '?';
 char enemyChar = 'e';
 
 
-char map[LEVELHEIGHT][LEVELWIDTH + 1] =
+
+
+/*char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 {
 "####################",
 "#..................#",
@@ -43,9 +45,27 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1] =
 "#..................#",
 "#..................#",
 "####################"
-};
+};*/
 
+int LEVELHEIGHT = 0;
+int LEVELWIDTH = 0;
+char* map = NULL;
 
+void readMap()
+{
+	string buffer;
+	ifstream myfile("map_1.txt");
+	if (myfile.is_open())
+	{
+		while (getline(myfile, buffer))
+		{
+			LEVELHEIGHT++;
+			//cout << ch;
+		}
+		LEVELWIDTH = buffer.length();
+	}
+	map = new char[LEVELWIDTH * LEVELHEIGHT];
+}
 
 
 void gotoScreenPosition(short C, short R)
@@ -58,42 +78,16 @@ void gotoScreenPosition(short C, short R)
 }
 
 
-void readMap()
-{
-	int numLines = 0;
-	string line;
-	ifstream myfile("map_1.txt");
-	if (myfile.is_open())
-	{
-		while (getline(myfile, line))
-		{
-			numLines++;
-		}
-		cout << numLines;
-		myfile.close();
-	}
-}
-
-/*void readMap()
-{
-	char ch;
-	ifstream myfile("map_1.txt");
-	if (myfile.is_open())
-	{
-		while (myfile.get(ch))
-		{
-			cout << ch << '\n';
-		}
-		myfile.close();
-	}
-}*/
-
 //Renders the map.
-void renderMap()
+void renderMap(char* m, int width, int height)
 {
-	for (int i = 0; i < LEVELHEIGHT; i++)
+	for (int i = 0; i < width; i++)
 	{
-		std::cout << map[i] << std::endl;
+		for (int j = 0; j < height; j++)
+		{
+			cout << m[i*height + j];
+		}
+		cout << endl;
 	}
 }
 
@@ -133,7 +127,7 @@ void itemPickup(char thing)
 //Allows item to be placed ontop of another.
 bool itemCollision(int y, int x)
 {
-	char nextMove = map[y][x];
+	char nextMove = map[y * x];
 
 	switch (nextMove)
 	{
@@ -160,7 +154,7 @@ bool itemCollision(int y, int x)
 //Checks if position is wall, empty or item.
 bool handleCollisions(int y, int x)
 {
-	char nextMove = map[y][x];
+	char nextMove = map[y * x];
 
 	switch (nextMove)
 	{
@@ -213,7 +207,7 @@ void dropItem(int thing)
 		itemPosX = playerPositionX + 1;
 		itemPosY = playerPositionY;
 		cout << vItemChar[itemnum];
-		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		map[itemPosY * itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -222,7 +216,7 @@ void dropItem(int thing)
 		itemPosX = playerPositionX - 1;
 		itemPosY = playerPositionY;
 		cout << vItemChar[itemnum];
-		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		map[itemPosY * itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -231,7 +225,7 @@ void dropItem(int thing)
 		itemPosX = playerPositionX;
 		itemPosY = playerPositionY + 1;
 		cout << vItemChar[itemnum];
-		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		map[itemPosY * itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -240,7 +234,7 @@ void dropItem(int thing)
 		itemPosX = playerPositionX;
 		itemPosY = playerPositionY - 1;
 		cout << vItemChar[itemnum];
-		map[itemPosY][itemPosX] = vItemChar[itemnum];
+		map[itemPosY * itemPosX] = vItemChar[itemnum];
 		inventory.erase(inventory.begin() + thing);
 		itemStore.erase(itemStore.begin() + thing);
 	}
@@ -303,7 +297,7 @@ void inventoryScreen()
 		}
 	}
 	system("CLS");
-	renderMap();
+	renderMap(&map[0 * 0], LEVELWIDTH, LEVELHEIGHT);
 }
 
 //Handles Input.
@@ -352,14 +346,14 @@ void renderPlayer()
 	//Blank old player position.
 	gotoScreenPosition(playerPositionX, playerPositionY);
 	std::cout << '.';
-	map[playerPositionY][playerPositionX] = '.';
+	map[playerPositionY * playerPositionX] = '.';
 
 	//Draw new player position.
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
 	std::cout << playerChar;
 	playerPositionX = newPlayerPositionX;
 	playerPositionY = newPlayerPositionY;
-	map[playerPositionY][playerPositionX] = playerChar;
+	map[playerPositionY * playerPositionX] = playerChar;
 }
 
 
@@ -372,12 +366,12 @@ void renderItem()
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == '.' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || 
-			map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
+		if (map[itemPosY * itemPosX] == '.' || map[itemPosY * itemPosX] == '@' || map[itemPosY * itemPosX] == '?' || 
+			map[itemPosY * itemPosX] == '/' || map[itemPosY * itemPosX] == '+')
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
-			map[itemPosY][itemPosX] = itemChar;
+			map[itemPosY * itemPosX] = itemChar;
 		}
 		else
 		{
@@ -389,11 +383,11 @@ void renderItem()
 //Renders enemy
 void renderEnemy()
 {
-	if (map[enemyPosY][enemyPosX] == '.')
+	if (map[enemyPosY * enemyPosX] == '.')
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << enemyChar;
-		map[enemyPosY][enemyPosX] = enemyChar;
+		map[enemyPosY * enemyPosX] = enemyChar;
 	}
 	else
 	{
@@ -408,23 +402,23 @@ void moveEnemy()
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << '.';
-		map[enemyPosY][enemyPosX] = '.';
+		map[enemyPosY * enemyPosX] = '.';
 
 		enemyPosX = enemyPosX - 1;
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << enemyChar;
-		map[enemyPosY][enemyPosX] = enemyChar;
+		map[enemyPosY * enemyPosX] = enemyChar;
 	}
 	else if (enemyPosX < playerPositionX)
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << '.';
-		map[enemyPosY][enemyPosX] = '.';
+		map[enemyPosY * enemyPosX] = '.';
 
 		enemyPosX = enemyPosX + 1;
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << enemyChar;
-		map[enemyPosY][enemyPosX] = enemyChar;
+		map[enemyPosY * enemyPosX] = enemyChar;
 	}
 }
 
@@ -451,7 +445,7 @@ void main()
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
 
 	//Renders map.
-	renderMap();
+	renderMap(&map[0 * 0], LEVELWIDTH, LEVELHEIGHT);
 
 	//Renders items.
 	renderItem();
