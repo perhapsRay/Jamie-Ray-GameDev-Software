@@ -51,6 +51,8 @@ int LEVELHEIGHT = 0;
 int LEVELWIDTH = 0;
 char* map = NULL;
 
+
+//Reads in map file and dynamically allocates the array based on the map size.
 void readMap()
 {
 	string buffer;
@@ -60,14 +62,13 @@ void readMap()
 		while (getline(myfile, buffer))
 		{
 			LEVELHEIGHT++;
-			//cout << ch;
 		}
 		LEVELWIDTH = buffer.length();
 	}
 	map = new char[LEVELWIDTH * LEVELHEIGHT];
 }
 
-
+//Goes to screen position for printing of certain aspects in certain areas. (GUI ect)
 void gotoScreenPosition(short C, short R)
 {
 	COORD xy;
@@ -341,6 +342,7 @@ void handleInput()
 	}
 }
 
+//Renders player.
 void renderPlayer()
 {
 	//Blank old player position.
@@ -450,6 +452,7 @@ void main()
 	//Renders items.
 	renderItem();
 
+	//Renders enemy.
 	renderEnemy();
 
 	//Makes item have relevant char when it is dropped.
@@ -467,8 +470,10 @@ void main()
 		//Render the scene.
 		renderPlayer();
 
+		//Moves enemy.
 		moveEnemy();
 
+		//Reads in map file and dynamically allocates array size based on map size.
 		readMap();
 
 		//Render the GUI.
