@@ -15,5 +15,6 @@ My items currently work as such: When the program is started a number of items w
 The inventory interface is very simple. When the player press the "I" key the screen will be cleared and the inventory displayed. Items will be numbered. To drop an item the player must press the space bar and then the number representing the item they want to drop. If the player wishes to exit the inventory they simply need to press the "I" key again.
 
 Currently multiple items can not be place on the same tile.
+However, if you try to put an item on the same tile as a current item, it will find a different available space to place the item.
 
 Most features are in a working state however there are still some small issues that are being worked on.
