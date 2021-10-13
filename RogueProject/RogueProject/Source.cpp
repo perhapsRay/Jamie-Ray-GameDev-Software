@@ -475,6 +475,8 @@ void main()
 
 		moveEnemy();
 
+		readMap();
+
 		//Render the GUI.
 		renderGUI();
 
