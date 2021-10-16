@@ -75,16 +75,24 @@ void readMap()
 
 
 
-	char array[BORDERWIDTH][BORDERHEIGHT] = { ' ' };
+	char array[BORDERHEIGHT][BORDERWIDTH] = { ' ' };
 	int row, col;
 	char buff[BUFFSIZE];
 	ifstream infile("map_1.txt");
 	stringstream ss;
 	row = 0;
-	while (infile.getline(buff, BUFFSIZE) && row < ROWS)
+	while (infile.getline(buff, BUFFSIZE) && row < BORDERHEIGHT)
 	{
 		ss << buff;
 		col = 0;
+		while (ss.getline(buff, 256) && col < BORDERWIDTH)
+		{
+			array[row][col] = atoi(buff);
+			++col;
+		}
+		ss << "";
+		ss.clear();
+		++row;
 	}
 
 
