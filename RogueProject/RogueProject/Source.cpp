@@ -34,8 +34,8 @@ char enemyChar = 'e';
 
 
 
-char map[LEVELHEIGHT][LEVELWIDTH + 1]; /*=
-{
+char map[LEVELHEIGHT][LEVELWIDTH + 1]; 
+/*={
 "####################",
 "#..................#",
 "#..................#",
@@ -53,7 +53,7 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1]; /*=
 
 //int LEVELHEIGHT = 0;
 //int LEVELWIDTH = 0;
-//char map = NULL;
+//char* map = NULL;
 //Reads in map file and dynamically allocates the array based on the map size.
 void readMap()
 {
@@ -70,7 +70,28 @@ void readMap()
 		LEVELWIDTH = buffer.length();
 	}
 	myfile.close();
-	map = new char[LEVELWIDTH * LEVELHEIGHT];*/
+	map = new char[LEVELWIDTH * LEVELHEIGHT];
+
+	char array[BORDERHEIGHT][BORDERWIDTH] = { ' ' };
+	int row, col;
+	char buff[BUFFSIZE];
+	ifstream infile("map_1.txt");
+	stringstream ss;
+	row = 0;
+	while (infile.getline(buff, BUFFSIZE) && row < BORDERHEIGHT)
+	{
+		ss << buff;
+		col = 0;
+		while (ss.getline(buff, 2) && col < BORDERWIDTH)
+		{
+			array[row][col] = buff[col];
+			++col;
+		}
+		ss << "";
+		ss.clear();
+		++row;
+	}
+	map[LEVELWIDTH * LEVELHEIGHT]; */
 
 
 	char buff[BUFFSIZE];
@@ -93,28 +114,6 @@ void readMap()
 	}
 
 	infile.close();
-
-
-	/*char array[BORDERHEIGHT][BORDERWIDTH] = { ' ' };
-	int row, col;
-	char buff[BUFFSIZE];
-	ifstream infile("map_1.txt");
-	stringstream ss;
-	row = 0;
-	while (infile.getline(buff, BUFFSIZE) && row < BORDERHEIGHT)
-	{
-		ss << buff;
-		col = 0;
-		while (ss.getline(buff, 2) && col < BORDERWIDTH)
-		{
-			array[row][col] = buff[col];
-			++col;
-		}
-		ss << "";
-		ss.clear();
-		++row;
-	}
-	map[LEVELWIDTH * LEVELHEIGHT]; */
 
 }
 
