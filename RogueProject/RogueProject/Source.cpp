@@ -57,44 +57,37 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1];
 //Reads in map file and dynamically allocates the array based on the map size.
 void readMap()
 {
-	/*string buffer;
-	ifstream myfile("map_1.txt");
-	stringstream ss;
-	if (myfile.is_open())
-	{
-		while (getline(myfile, buffer))
-		{
-			LEVELHEIGHT++;
-			cout << buffer; 
-		}
-		LEVELWIDTH = buffer.length();
-	}
-	myfile.close();
-	map = new char[LEVELWIDTH * LEVELHEIGHT];
-
-	char array[BORDERHEIGHT][BORDERWIDTH] = { ' ' };
-	int row, col;
-	char buff[BUFFSIZE];
-	ifstream infile("map_1.txt");
-	stringstream ss;
-	row = 0;
-	while (infile.getline(buff, BUFFSIZE) && row < BORDERHEIGHT)
-	{
-		ss << buff;
-		col = 0;
-		while (ss.getline(buff, 2) && col < BORDERWIDTH)
-		{
-			array[row][col] = buff[col];
-			++col;
-		}
-		ss << "";
-		ss.clear();
-		++row;
-	}
-	map[LEVELWIDTH * LEVELHEIGHT]; */
-
 
 	char buff[BUFFSIZE];
+	string line;
+	fstream infile("map_1.txt");
+	stringstream ss;
+	if (infile.is_open())
+	{
+		int p = 0;
+		while (getline(infile, line))
+		{
+			p++;
+		}
+
+		for (int row = 0; row < LEVELHEIGHT; ++row)
+		{
+			infile.getline(buff, BUFFSIZE);
+			ss << buff;
+
+			for (int col = 0; col < LEVELWIDTH; ++col)
+			{
+				map[row][col] = buff[col];
+			}
+			ss << "";
+			ss.clear();
+		}
+	}
+	infile.close();
+
+
+
+	/*char buff[BUFFSIZE];
 	fstream infile("map_1.txt");
 	stringstream ss;
 	if (infile.is_open())
@@ -113,7 +106,7 @@ void readMap()
 		}
 	}
 
-	infile.close();
+	infile.close();*/
 
 }
 
@@ -131,21 +124,10 @@ void gotoScreenPosition(short C, short R)
 //Renders the map.
 void renderMap()
 {
-
 	for (int i = 0; i < LEVELHEIGHT; i++)
 	{
 		cout << map[i] << endl;
 	}
-
-
-	/*for (int i = 0; i < width; i++)
-	{
-		for (int j = 0; j < height; j++)
-		{
-			cout << m[i*height + j];
-		}
-		cout << endl;
-	}*/
 }
 
 //Chooses random number between 0 and 1 to determine which item is picked up.
@@ -419,13 +401,12 @@ void renderPlayer()
 void renderItem()
 {
 	//srand((unsigned int)time(NULL));
-	//for (int i = 0; i < 3; i++)
+	for (int j = 0; j < 3; j++)
 	{
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == '.' || map[itemPosY][itemPosX] == '@' || map[itemPosY][itemPosX] == '?' || 
-			map[itemPosY][itemPosX] == '/' || map[itemPosY][itemPosX] == '+')
+		if (map[itemPosY][itemPosX] == '.' )
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
@@ -508,13 +489,13 @@ void main()
 	renderMap();
 
 	//Renders items.
-	//renderItem();
+	renderItem();
 
 	//Renders enemy.
 	//renderEnemy();
 
 	//Makes item have relevant char when it is dropped.
-	//itemAssign();
+	itemAssign();
 
 	//Initial player render.
 	renderPlayer();
