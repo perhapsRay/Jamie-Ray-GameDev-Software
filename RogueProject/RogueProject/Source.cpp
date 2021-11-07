@@ -58,7 +58,7 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1];
 void readMap()
 {
 
-	char buff[BUFFSIZE];
+	/*char buff[BUFFSIZE];
 	string line;
 	fstream infile("map_1.txt");
 	stringstream ss;
@@ -83,11 +83,11 @@ void readMap()
 			ss.clear();
 		}
 	}
-	infile.close();
+	infile.close();*/
 
 
 
-	/*char buff[BUFFSIZE];
+	char buff[BUFFSIZE];
 	fstream infile("map_1.txt");
 	stringstream ss;
 	if (infile.is_open())
@@ -106,7 +106,7 @@ void readMap()
 		}
 	}
 
-	infile.close();*/
+	infile.close();
 
 }
 
