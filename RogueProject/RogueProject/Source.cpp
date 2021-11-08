@@ -4,16 +4,20 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include "player.h"
+
+
+
 using namespace std;
 
 const int LEVELWIDTH = 100;
 const int LEVELHEIGHT = 20;
 const int BUFFSIZE = 100;
 
-unsigned int playerPositionX = 5;
-unsigned int playerPositionY = 5;
-unsigned int newPlayerPositionX = playerPositionX;
-unsigned int newPlayerPositionY = playerPositionY;
+//unsigned int playerPositionX = 5;
+//unsigned int playerPositionY = 5;
+//unsigned int newPlayerPositionX = playerPositionX;
+//unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
@@ -27,7 +31,7 @@ vector<int> itemStore;
 vector<char> vItemChar;
 unsigned int maxHealth = 25;
 unsigned int health = 20;
-char playerChar = '@';
+//char playerChar = '@';
 char itemChar = '?';
 char enemyChar = 'e';
 
@@ -283,8 +287,65 @@ void dropItem(int thing)
 	}
 }
 
-//Clears screen and prints inventory.
 void inventoryScreen()
+{
+	system("CLS");
+	gotoScreenPosition(0, 0);
+	cout << "Inventory:";
+
+
+	for (int i = 0; i < inventory.size(); i++)
+	{
+		gotoScreenPosition(2, 2 + i);
+		cout << i + 1 << ". " << inventory[i];
+	}
+
+	//Drop item.
+	while (true)
+	{
+		if (GetKeyState('I') & 0x8000)
+		{
+			break;
+		}
+
+		if (inventory.size() <= 0)
+		{
+			gotoScreenPosition(2, 2);
+			cout << "Inventory is empty!";
+			continue;
+		}
+
+		if (GetKeyState(VK_SPACE) & 0x8000)
+		{
+			Sleep(120);
+			while (true)
+			{
+				if (GetKeyState(0x31) & 0x8000)
+				{
+					dropItem(0);
+					break;
+				}
+				if (GetKeyState(0x32) & 0x8000)
+				{
+					dropItem(1);
+					break;
+				}
+				if (GetKeyState(0x33) & 0x8000)
+				{
+					dropItem(2);
+					break;
+				}
+			}
+			break;
+		}
+		
+	}
+	system("CLS");
+	renderMap();
+}
+
+//Clears screen and prints inventory.
+/*void inventoryScreen()
 {
 	system("CLS");
 	Sleep(120);
@@ -306,23 +367,22 @@ void inventoryScreen()
 	//Drop item.
 	while (true)
 	{
-		if (GetKeyState(VK_SPACE))
+		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
 			Sleep(120);
 			while (true)
 			{
-				if (GetKeyState(0x31))
+				if (GetKeyState(0x31) & 0x8000)
 				{
-					Sleep(500);
 					dropItem(0);
 					break;
 				}
-				if (GetKeyState(0x32))
+				if (GetKeyState(0x32) & 0x8000)
 				{
 					dropItem(1);
 					break;
 				}
-				if (GetKeyState(0x33))
+				if (GetKeyState(0x33) & 0x8000)
 				{
 					dropItem(2);
 					break;
@@ -337,7 +397,7 @@ void inventoryScreen()
 	}
 	system("CLS");
 	renderMap();
-}
+}*/
 
 //Handles Input.
 void handleInput()
@@ -401,7 +461,7 @@ void renderPlayer()
 void renderItem()
 {
 	//srand((unsigned int)time(NULL));
-	for (int j = 0; j < 3; j++)
+	for (int j = 0; j < 4; j++)
 	{
 		itemPosX = rand() % LEVELWIDTH;
 		itemPosY = rand() % LEVELHEIGHT;
@@ -414,7 +474,7 @@ void renderItem()
 		}
 		else
 		{
-			renderItem();
+			j--;
 		}
 	}
 }
