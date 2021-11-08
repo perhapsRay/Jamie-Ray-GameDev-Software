@@ -8,10 +8,15 @@ using namespace std;
 class player
 {
 
+public:
+	int getplayerPositionX();
+	void setplayerPositionX(int playerPositionXParam);
+	void handleInput();
+
 private:
-	unsigned int playerPositionX = 5;
-	unsigned int playerPositionY = 5;
-	unsigned int newPlayerPositionX = playerPositionX;
-	unsigned int newPlayerPositionY = playerPositionY;
+	int playerPositionX = 5;
+	int playerPositionY = 5;
+	//int newPlayerPositionX = playerPositionX;
+	//int newPlayerPositionY = playerPositionY;
 	char playerChar = '@';
 };

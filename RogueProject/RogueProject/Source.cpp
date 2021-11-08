@@ -5,9 +5,6 @@
 #include <fstream>
 #include <sstream>
 #include "player.h"
-
-
-
 using namespace std;
 
 const int LEVELWIDTH = 100;
@@ -16,8 +13,8 @@ const int BUFFSIZE = 100;
 
 //unsigned int playerPositionX = 5;
 //unsigned int playerPositionY = 5;
-//unsigned int newPlayerPositionX = playerPositionX;
-//unsigned int newPlayerPositionY = playerPositionY;
+unsigned int newPlayerPositionX = playerPositionX;
+unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
@@ -34,7 +31,7 @@ unsigned int health = 20;
 //char playerChar = '@';
 char itemChar = '?';
 char enemyChar = 'e';
-
+player gamePlayer;
 
 
 
@@ -287,6 +284,8 @@ void dropItem(int thing)
 	}
 }
 
+
+//Clears screen and prints inventory.
 void inventoryScreen()
 {
 	system("CLS");
@@ -344,65 +343,18 @@ void inventoryScreen()
 	renderMap();
 }
 
-//Clears screen and prints inventory.
-/*void inventoryScreen()
-{
-	system("CLS");
-	Sleep(120);
 
-	if (inventory.size() <= 0)
-	{
-		gotoScreenPosition(0, 0);
-		cout << "Inventory is empty!";
-	}
-	else
-	{
-		gotoScreenPosition(0, 0);
-		for (int i = 0; i < inventory.size(); i++)
-		{
-			cout << i+1 << ". " << inventory[i] << endl;
-		}
-	}
 
-	//Drop item.
-	while (true)
-	{
-		if (GetKeyState(VK_SPACE) & 0x8000)
-		{
-			Sleep(120);
-			while (true)
-			{
-				if (GetKeyState(0x31) & 0x8000)
-				{
-					dropItem(0);
-					break;
-				}
-				if (GetKeyState(0x32) & 0x8000)
-				{
-					dropItem(1);
-					break;
-				}
-				if (GetKeyState(0x33) & 0x8000)
-				{
-					dropItem(2);
-					break;
-				}
-			}
-			break;
-		}
-		if (GetKeyState('I') & 0x8000)
-		{
-			break;
-		}
-	}
-	system("CLS");
-	renderMap();
-}*/
+
 
 //Handles Input.
 void handleInput()
 {
-	newPlayerPositionX = playerPositionX;
+	gamePlayer.handleInput();
+	
+
+
+	newPlayerPositionX = gamePlayer.getplayerPositionX();
 	newPlayerPositionY = playerPositionY;
 
 	while (true)
