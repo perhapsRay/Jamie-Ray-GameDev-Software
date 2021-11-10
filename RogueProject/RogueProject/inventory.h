@@ -10,7 +10,6 @@ class inventory
 {
 public:
 
-
 	void itemCheck();
 	void inventoryScreen();
 

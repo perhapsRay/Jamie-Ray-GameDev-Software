@@ -18,7 +18,7 @@ void inventory::itemCheck()
 	}
 }
 
-void inventory::inventoryScreen()
+/*void inventory::inventoryScreen()
 {
 	system("CLS");
 	gotoScreenPosition(0, 0);
@@ -73,4 +73,4 @@ void inventory::inventoryScreen()
 	}
 	system("CLS");
 	renderMap();
-}
+}*/

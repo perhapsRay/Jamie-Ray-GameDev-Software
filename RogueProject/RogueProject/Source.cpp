@@ -4,100 +4,70 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include "source.h"
 #include "player.h"
 using namespace std;
 
-const int LEVELWIDTH = 100;
-const int LEVELHEIGHT = 20;
 const int BUFFSIZE = 100;
 
-//unsigned int playerPositionX = 5;
-//unsigned int playerPositionY = 5;
-unsigned int newPlayerPositionX = playerPositionX;
-unsigned int newPlayerPositionY = playerPositionY;
 unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
 unsigned int enemyPosY = 3;
-//string potion = "Health potion.";
-//string sword = "Sword.";
-//unsigned int itemNumber;
-//unsigned int itemnum;
-//vector<string> inventory;
-//vector<int> itemStore;
-//vector<char> vItemChar;
+string potion = "Health potion.";
+string sword = "Sword.";
+unsigned int itemNumber;
+unsigned int itemnum;
+vector<string> inventory;
+vector<int> itemStore;
+vector<char> vItemChar;
 unsigned int maxHealth = 25;
 unsigned int health = 20;
-//char playerChar = '@';
 char itemChar = '?';
 char enemyChar = 'e';
-player gamePlayer;
 
 
-
-char map[LEVELHEIGHT][LEVELWIDTH + 1]; 
-/*={
-"####################",
-"#..................#",
-"#..................#",
-"#..................#",
-"#..................#",
-"#..................#",
-"#..................#",
-"#..................#",
-"#..................#",
-"####################"
-};*/
-
-
-
-
-//int LEVELHEIGHT = 0;
-//int LEVELWIDTH = 0;
+int levelHeight = 0;
+int levelWidth = 0;
 //char* map = NULL;
 //Reads in map file and dynamically allocates the array based on the map size.
+
+const int MAXLEVELWIDTH = 100;
+const int MAXLEVELHEIGHT = 20;
+char map[MAXLEVELHEIGHT][MAXLEVELWIDTH];
+unsigned int newPlayerPositionX;
+unsigned int newPlayerPositionY;
+
+player gamePlayer('@', 5, 5);
+
 void readMap()
 {
-	/*char buff[BUFFSIZE];
+	char buff[BUFFSIZE];
 	string line;
 	fstream infile("map_1.txt");
-	stringstream ss;
 	if (infile.is_open())
 	{
-		int p = 0;
+		levelHeight = 0;
+
 		while (getline(infile, line))
 		{
-			p++;
+			levelHeight++;
 		}
 
-		for (int row = 0; row < LEVELHEIGHT; ++row)
-		{
-			infile.getline(buff, BUFFSIZE);
-			ss << buff;
-
-			for (int col = 0; col < LEVELWIDTH; ++col)
-			{
-				map[row][col] = buff[col];
-			}
-			ss << "";
-			ss.clear();
-		}
+		levelWidth = line.length();
 	}
-	infile.close();*/
+	infile.close();
 
-
-
-	char buff[BUFFSIZE];
-	fstream infile("map_1.txt");
+	infile.open("map_1.txt");
 	stringstream ss;
 	if (infile.is_open())
 	{
-		for (int row = 0; row < LEVELHEIGHT; ++row)
+		for (int row = 0; row < levelHeight; row++)
 		{
 			infile.getline(buff, BUFFSIZE);
 			ss << buff;
 
-			for (int col = 0; col < LEVELWIDTH; ++col)
+			for (int col = 0; col < levelWidth; col++)
 			{
 				map[row][col] = buff[col];
 			}
@@ -107,7 +77,6 @@ void readMap()
 	}
 
 	infile.close();
-
 }
 
 //Goes to screen position for printing of certain aspects in certain areas. (GUI ect)
@@ -121,12 +90,16 @@ void gotoScreenPosition(short C, short R)
 }
 
 
-//Renders the map.
+//Renders the map. 
 void renderMap()
 {
-	for (int i = 0; i < LEVELHEIGHT; i++)
+	for (int i = 0; i < levelHeight; i++)
 	{
-		cout << map[i] << endl;
+		for (int j = 0; j < levelWidth; j++)
+		{
+			cout << map[i][j];
+		}
+		cout << endl;
 	}
 }
 
@@ -228,7 +201,7 @@ void itemAssign()
 }
 
 //Drop item function.
-void dropItem(int thing)
+/*void dropItem(int thing)
 {
 
 	if (inventory[thing] == potion)
@@ -281,11 +254,11 @@ void dropItem(int thing)
 	{
 		
 	}
-}
+}*/
 
 
 //Clears screen and prints inventory.
-void inventoryScreen()
+/*void inventoryScreen()
 {
 	system("CLS");
 	gotoScreenPosition(0, 0);
@@ -340,9 +313,7 @@ void inventoryScreen()
 	}
 	system("CLS");
 	renderMap();
-}
-
-
+}*/
 
 
 
@@ -351,29 +322,10 @@ void handleInput()
 {
 	gamePlayer.handleInput();
 	
-
-
-	newPlayerPositionX = gamePlayer.getplayerPositionX();
-	newPlayerPositionY = playerPositionY;
-
-	
+	//newPlayerPositionX = gamePlayer.getplayerPositionX();
+	//newPlayerPositionY = gamePlayer.getplayerPositionY();
 }
 
-//Renders player.
-void renderPlayer()
-{
-	//Blank old player position.
-	gotoScreenPosition(playerPositionX, playerPositionY);
-	std::cout << '.';
-	map[playerPositionY][playerPositionX] = '.';
-
-	//Draw new player position.
-	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
-	std::cout << playerChar;
-	playerPositionX = newPlayerPositionX;
-	playerPositionY = newPlayerPositionY;
-	map[playerPositionY][playerPositionX] = playerChar;
-}
 
 
 //Handles item rendering.
@@ -382,8 +334,8 @@ void renderItem()
 	//srand((unsigned int)time(NULL));
 	for (int j = 0; j < 4; j++)
 	{
-		itemPosX = rand() % LEVELWIDTH;
-		itemPosY = rand() % LEVELHEIGHT;
+		itemPosX = rand() % MAXLEVELWIDTH;
+		itemPosY = rand() % MAXLEVELHEIGHT;
 
 		if (map[itemPosY][itemPosX] == '.' )
 		{
@@ -414,7 +366,7 @@ void renderEnemy()
 }
 
 //Lets enemy move toward player
-void moveEnemy()
+/*void moveEnemy()
 {
 	if (enemyPosX > playerPositionX)
 	{
@@ -438,12 +390,12 @@ void moveEnemy()
 		std::cout << enemyChar;
 		map[enemyPosY][enemyPosX] = enemyChar;
 	}
-}
+}*/
 
 //Renders GUI elements.
 void renderGUI()
 {
-	gotoScreenPosition(2, LEVELHEIGHT + 3);
+	gotoScreenPosition(2, MAXLEVELHEIGHT + 3);
 	std::cout << "Health: " << health << "/" << maxHealth;
 }
 
@@ -464,6 +416,9 @@ void main()
 
 	readMap();
 
+	newPlayerPositionX = gamePlayer.getplayerPositionX();
+	newPlayerPositionY = gamePlayer.getplayerPositionY();
+
 	//Renders map.
 	renderMap();
 
@@ -477,7 +432,7 @@ void main()
 	itemAssign();
 
 	//Initial player render.
-	renderPlayer();
+	gamePlayer.render();
 
 
 	while (true)
@@ -486,7 +441,7 @@ void main()
 		handleInput();
 
 		//Render the scene.
-		renderPlayer();
+		gamePlayer.render();
 
 		//Moves enemy.
 		//moveEnemy();

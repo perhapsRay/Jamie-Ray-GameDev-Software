@@ -18,7 +18,7 @@ int map::getBUFFSIZE()
 
 void map::readMap()
 {
-	char buff[BUFFSIZE];
+	/*char buff[BUFFSIZE];
 	fstream infile("map_1.txt");
 	stringstream ss;
 	if (infile.is_open())
@@ -37,7 +37,7 @@ void map::readMap()
 		}
 	}
 
-	infile.close();
+	infile.close();*/
 }
 
 void map::renderMap()

@@ -17,9 +17,8 @@ public:
 	void renderMap();
 	
 private:
-	const int LEVELWIDTH = 100;
-	const int LEVELHEIGHT = 20;
+	static const int LEVELWIDTH = 100;
+	static const int LEVELHEIGHT = 20;
 	const int BUFFSIZE = 100;
-
 	char level[LEVELHEIGHT][LEVELWIDTH + 1];
 };
