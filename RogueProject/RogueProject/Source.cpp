@@ -19,13 +19,13 @@ unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
 unsigned int enemyPosY = 3;
-string potion = "Health potion.";
-string sword = "Sword.";
-unsigned int itemNumber;
-unsigned int itemnum;
-vector<string> inventory;
-vector<int> itemStore;
-vector<char> vItemChar;
+//string potion = "Health potion.";
+//string sword = "Sword.";
+//unsigned int itemNumber;
+//unsigned int itemnum;
+//vector<string> inventory;
+//vector<int> itemStore;
+//vector<char> vItemChar;
 unsigned int maxHealth = 25;
 unsigned int health = 20;
 //char playerChar = '@';
@@ -58,7 +58,6 @@ char map[LEVELHEIGHT][LEVELWIDTH + 1];
 //Reads in map file and dynamically allocates the array based on the map size.
 void readMap()
 {
-
 	/*char buff[BUFFSIZE];
 	string line;
 	fstream infile("map_1.txt");
@@ -357,39 +356,7 @@ void handleInput()
 	newPlayerPositionX = gamePlayer.getplayerPositionX();
 	newPlayerPositionY = playerPositionY;
 
-	while (true)
-	{
-		Sleep(120);
-		if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(playerPositionY - 1, playerPositionX))
-		{
-			newPlayerPositionY = playerPositionY - 1;
-			break;
-		}
-
-		if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(playerPositionY + 1, playerPositionX))
-		{
-			newPlayerPositionY = playerPositionY + 1;
-			break;
-		}
-
-		if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX + 1))
-		{
-			newPlayerPositionX = playerPositionX + 1;
-			break;
-		}
-
-		if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(playerPositionY, playerPositionX - 1))
-		{
-			newPlayerPositionX = playerPositionX - 1;
-			break;
-		}
-
-		if (GetKeyState('I') & 0x8000)
-		{
-			inventoryScreen();
-			break;
-		}
-	}
+	
 }
 
 //Renders player.
