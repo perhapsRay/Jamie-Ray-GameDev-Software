@@ -6,10 +6,10 @@
 #include <sstream>
 #include "source.h"
 #include "player.h"
+#include "map.h"
 using namespace std;
 
 const int BUFFSIZE = 100;
-
 unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
@@ -26,7 +26,6 @@ unsigned int health = 20;
 char itemChar = '?';
 char enemyChar = 'e';
 
-
 int levelHeight = 0;
 int levelWidth = 0;
 //char* map = NULL;
@@ -37,10 +36,10 @@ const int MAXLEVELHEIGHT = 20;
 char map[MAXLEVELHEIGHT][MAXLEVELWIDTH];
 unsigned int newPlayerPositionX;
 unsigned int newPlayerPositionY;
-
 player gamePlayer('@', 5, 5);
 
-void readMap()
+//Reads map file.
+/*void readMap()
 {
 	char buff[BUFFSIZE];
 	string line;
@@ -77,7 +76,7 @@ void readMap()
 	}
 
 	infile.close();
-}
+}*/
 
 //Goes to screen position for printing of certain aspects in certain areas. (GUI ect)
 void gotoScreenPosition(short C, short R)
@@ -89,9 +88,8 @@ void gotoScreenPosition(short C, short R)
 		GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
-
 //Renders the map. 
-void renderMap()
+/*void renderMap()
 {
 	for (int i = 0; i < levelHeight; i++)
 	{
@@ -101,7 +99,7 @@ void renderMap()
 		}
 		cout << endl;
 	}
-}
+}*/
 
 //Chooses random number between 0 and 1 to determine which item is picked up.
 void itemCheck()
@@ -326,8 +324,6 @@ void handleInput()
 	//newPlayerPositionY = gamePlayer.getplayerPositionY();
 }
 
-
-
 //Handles item rendering.
 void renderItem()
 {
@@ -414,13 +410,13 @@ void main()
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
 
-	readMap();
+	map.readMap();
 
 	newPlayerPositionX = gamePlayer.getplayerPositionX();
 	newPlayerPositionY = gamePlayer.getplayerPositionY();
 
 	//Renders map.
-	renderMap();
+	map.renderMap();
 
 	//Renders items.
 	renderItem();
