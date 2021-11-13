@@ -23,7 +23,6 @@ void map::setLevelHeight(int heightParam)
 	levelHeight = heightParam;
 }
 
-
 map::map(string levelName)
 {
 	string level = levelName;
