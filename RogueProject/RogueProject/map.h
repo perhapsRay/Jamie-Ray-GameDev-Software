@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "source.h"
+#include "player.h"
 using namespace std;
 
 class map
@@ -18,13 +18,16 @@ public:
 	void setLevelHeight(int heightParam);
 	void readMap();
 	void renderMap();
+	void renderEntity(player p);
+	bool handleCollisions(int y, int x);
+	void handleInput(player p);
 	
 private:
 	static const int LEVELWIDTH = 100;
 	static const int LEVELHEIGHT = 20;
 	static const int BUFFSIZE = 100;
 
-	string level;
+	string levelName;
 	int levelHeight = 0;
 	int levelWidth = 0;
 

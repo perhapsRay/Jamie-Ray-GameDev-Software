@@ -3,7 +3,7 @@
 extern const int MAXLEVELWIDTH;
 extern const int MAXLEVELHEIGHT;
 extern const int BUFFSIZE;
-extern char map[20][100];
+extern char currentMap[20][100];
 extern unsigned int newPlayerPositionX;
 extern unsigned int newPlayerPositionY;
 

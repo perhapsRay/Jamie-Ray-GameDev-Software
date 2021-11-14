@@ -23,6 +23,9 @@
     <ClCompile Include="inventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gameplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -34,10 +37,15 @@
     <ClInclude Include="inventory.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="source.h" />
+    <ClInclude Include="Gameplay.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map_1.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="map_2.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>

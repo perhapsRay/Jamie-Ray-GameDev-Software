@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -147,15 +148,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Gameplay.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="map.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="player.h" />
-    <ClInclude Include="source.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="map_1.txt" />
+    <Text Include="map_2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

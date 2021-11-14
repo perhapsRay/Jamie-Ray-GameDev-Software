@@ -4,7 +4,7 @@
 
 void inventory::itemCheck()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{

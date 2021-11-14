@@ -4,12 +4,11 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "source.h"
 #include "player.h"
 #include "map.h"
 using namespace std;
 
-const int BUFFSIZE = 100;
+
 unsigned int itemPosX;
 unsigned int itemPosY;
 unsigned int enemyPosX = 18;
@@ -31,52 +30,13 @@ int levelWidth = 0;
 //char* map = NULL;
 //Reads in map file and dynamically allocates the array based on the map size.
 
+const int BUFFSIZE = 100;
 const int MAXLEVELWIDTH = 100;
 const int MAXLEVELHEIGHT = 20;
-char map[MAXLEVELHEIGHT][MAXLEVELWIDTH];
-unsigned int newPlayerPositionX;
-unsigned int newPlayerPositionY;
+char currentMap[MAXLEVELHEIGHT][MAXLEVELWIDTH];
 player gamePlayer('@', 5, 5);
+map gameMap("map_2.txt");
 
-//Reads map file.
-/*void readMap()
-{
-	char buff[BUFFSIZE];
-	string line;
-	fstream infile("map_1.txt");
-	if (infile.is_open())
-	{
-		levelHeight = 0;
-
-		while (getline(infile, line))
-		{
-			levelHeight++;
-		}
-
-		levelWidth = line.length();
-	}
-	infile.close();
-
-	infile.open("map_1.txt");
-	stringstream ss;
-	if (infile.is_open())
-	{
-		for (int row = 0; row < levelHeight; row++)
-		{
-			infile.getline(buff, BUFFSIZE);
-			ss << buff;
-
-			for (int col = 0; col < levelWidth; col++)
-			{
-				map[row][col] = buff[col];
-			}
-			ss << "";
-			ss.clear();
-		}
-	}
-
-	infile.close();
-}*/
 
 //Goes to screen position for printing of certain aspects in certain areas. (GUI ect)
 void gotoScreenPosition(short C, short R)
@@ -88,23 +48,10 @@ void gotoScreenPosition(short C, short R)
 		GetStdHandle(STD_OUTPUT_HANDLE), xy);
 }
 
-//Renders the map. 
-/*void renderMap()
-{
-	for (int i = 0; i < levelHeight; i++)
-	{
-		for (int j = 0; j < levelWidth; j++)
-		{
-			cout << map[i][j];
-		}
-		cout << endl;
-	}
-}*/
-
 //Chooses random number between 0 and 1 to determine which item is picked up.
 void itemCheck()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
@@ -137,7 +84,7 @@ void itemPickup(char thing)
 //Allows item to be placed ontop of another.
 bool itemCollision(int y, int x)
 {
-	char nextMove = map[y][x];
+	char nextMove = currentMap[y][x];
 
 	switch (nextMove)
 	{
@@ -164,7 +111,7 @@ bool itemCollision(int y, int x)
 //Checks if position is wall, empty or item.
 bool handleCollisions(int y, int x)
 {
-	char nextMove = map[y][x];
+	char nextMove = currentMap[y][x];
 
 	switch (nextMove)
 	{
@@ -313,17 +260,6 @@ void itemAssign()
 	renderMap();
 }*/
 
-
-
-//Handles Input.
-void handleInput()
-{
-	gamePlayer.handleInput();
-	
-	//newPlayerPositionX = gamePlayer.getplayerPositionX();
-	//newPlayerPositionY = gamePlayer.getplayerPositionY();
-}
-
 //Handles item rendering.
 void renderItem()
 {
@@ -333,11 +269,11 @@ void renderItem()
 		itemPosX = rand() % MAXLEVELWIDTH;
 		itemPosY = rand() % MAXLEVELHEIGHT;
 
-		if (map[itemPosY][itemPosX] == '.' )
+		if (currentMap[itemPosY][itemPosX] == '.' )
 		{
 			gotoScreenPosition(itemPosX, itemPosY);
 			std::cout << itemChar;
-			map[itemPosY][itemPosX] = itemChar;
+			currentMap[itemPosY][itemPosX] = itemChar;
 		}
 		else
 		{
@@ -349,11 +285,11 @@ void renderItem()
 //Renders enemy
 void renderEnemy()
 {
-	if (map[enemyPosY][enemyPosX] == '.')
+	if (currentMap[enemyPosY][enemyPosX] == '.')
 	{
 		gotoScreenPosition(enemyPosX, enemyPosY);
 		std::cout << enemyChar;
-		map[enemyPosY][enemyPosX] = enemyChar;
+		currentMap[enemyPosY][enemyPosX] = enemyChar;
 	}
 	else
 	{
@@ -395,28 +331,20 @@ void renderGUI()
 	std::cout << "Health: " << health << "/" << maxHealth;
 }
 
-//Sets cursor invisible
-void set_cursor(bool visible) {
-	CONSOLE_CURSOR_INFO info;
-	info.dwSize = 100;
-	info.bVisible = visible;
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
-}
-
-void main()
+/*void main()
 {
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
 
-	map.readMap();
+	gameMap.readMap();
 
 	newPlayerPositionX = gamePlayer.getplayerPositionX();
 	newPlayerPositionY = gamePlayer.getplayerPositionY();
 
 	//Renders map.
-	map.renderMap();
+	gameMap.renderMap();
 
 	//Renders items.
 	renderItem();
@@ -434,7 +362,7 @@ void main()
 	while (true)
 	{
 		//Handles the input and updates the players position.
-		handleInput();
+		gamePlayer.handleInput();
 
 		//Render the scene.
 		gamePlayer.render();
@@ -452,4 +380,4 @@ void main()
 	}
 
 	system("pause");
-}
+}*/
