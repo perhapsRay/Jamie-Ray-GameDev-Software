@@ -18,7 +18,8 @@ public:
 	void setLevelHeight(int heightParam);
 	void readMap();
 	void renderMap();
-	void renderEntity(player p);
+	void renderItem();
+	void renderEntity(player& p);
 	bool handleCollisions(int y, int x);
 	void handleInput(player p);
 	
@@ -30,6 +31,9 @@ private:
 	string levelName;
 	int levelHeight = 0;
 	int levelWidth = 0;
-
 	char level[LEVELHEIGHT][LEVELWIDTH + 1];
+
+	unsigned int itemPosX;
+	unsigned int itemPosY;
+	char itemChar = '?';
 };

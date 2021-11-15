@@ -34,7 +34,7 @@ const int BUFFSIZE = 100;
 const int MAXLEVELWIDTH = 100;
 const int MAXLEVELHEIGHT = 20;
 char currentMap[MAXLEVELHEIGHT][MAXLEVELWIDTH];
-player gamePlayer('@', 5, 5);
+//player gamePlayer('@', 5, 5);
 map gameMap("map_2.txt");
 
 
@@ -260,28 +260,6 @@ void itemAssign()
 	renderMap();
 }*/
 
-//Handles item rendering.
-void renderItem()
-{
-	//srand((unsigned int)time(NULL));
-	for (int j = 0; j < 4; j++)
-	{
-		itemPosX = rand() % MAXLEVELWIDTH;
-		itemPosY = rand() % MAXLEVELHEIGHT;
-
-		if (currentMap[itemPosY][itemPosX] == '.' )
-		{
-			gotoScreenPosition(itemPosX, itemPosY);
-			std::cout << itemChar;
-			currentMap[itemPosY][itemPosX] = itemChar;
-		}
-		else
-		{
-			j--;
-		}
-	}
-}
-
 //Renders enemy
 void renderEnemy()
 {
@@ -325,11 +303,7 @@ void renderEnemy()
 }*/
 
 //Renders GUI elements.
-void renderGUI()
-{
-	gotoScreenPosition(2, MAXLEVELHEIGHT + 3);
-	std::cout << "Health: " << health << "/" << maxHealth;
-}
+
 
 /*void main()
 {

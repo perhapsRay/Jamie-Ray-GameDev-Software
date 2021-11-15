@@ -28,12 +28,12 @@ map::map(string levelName)
 	this->levelName = levelName;
 }
 
-void map::renderEntity(player p)
+void map::renderEntity(player& p)
 {
 	//Blank old player position.
 	gotoScreenPosition(p.getplayerPositionX(), p.getplayerPositionY());
 	std::cout << '.';
-	level[p.getplayerPositionX()][p.getplayerPositionY()] = '.';
+	level[p.getplayerPositionY()][p.getplayerPositionX()] = '.';
 
 	//Draw new player position.
 	gotoScreenPosition(newPlayerPositionX, newPlayerPositionY);
@@ -71,6 +71,7 @@ bool map::handleCollisions(int y, int x)
 		return true;
 	}
 }
+
 void map::handleInput(player p)
 {
 	Sleep(120);
@@ -144,5 +145,25 @@ void map::renderMap()
 			cout << level[i][j];
 		}
 		cout << endl;
+	}
+}
+
+void map::renderItem()
+{
+	srand((unsigned int)time(NULL));
+	for (int j = 0; j < 4; j++)
+	{
+		itemPosX = rand() % levelWidth;
+		itemPosY = rand() % levelHeight;
+		if (level[itemPosY][itemPosX] == '.')
+		{
+			gotoScreenPosition(itemPosX, itemPosY);
+			std::cout << itemChar;
+			level[itemPosY][itemPosX] = itemChar;
+		}
+		else
+		{
+			j--;
+		}
 	}
 }

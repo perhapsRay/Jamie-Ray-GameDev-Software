@@ -2,11 +2,13 @@
 #include <iostream>
 
 
-player::player(char charParam, int posxParam, int posyParam)
+player::player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam)
 {
 	playerPositionX = posxParam;
 	playerPositionY = posyParam;
 	playerChar = charParam;
+	health = healthParam;
+	maxHealth = maxHealthParam;
 }
 
 int player::getplayerPositionX()
@@ -28,4 +30,12 @@ void player::setplayerPositionY(int playerPositionYParam)
 char player::getPlayerChar()
 {
 	return playerChar;
+}
+int player::getHealth()
+{
+	return health;
+}
+int player::getMaxHealth()
+{
+	return maxHealth;
 }
