@@ -1,20 +1,19 @@
 #include "inventory.h"
 #include <iostream>
 
-
 void inventory::itemCheck()
 {
-	//srand(time(NULL));
+	srand(time(NULL));
 	itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
-		inventory.push_back(potion);
-		itemStore.push_back(itemNumber);
+		bag.push_back(potion);
+		item.push_back(itemNumber);
 	}
 	else if (itemNumber == 1)
 	{
-		inventory.push_back(sword);
-		itemStore.push_back(itemNumber);
+		bag.push_back(sword);
+		item.push_back(itemNumber);
 	}
 }
 

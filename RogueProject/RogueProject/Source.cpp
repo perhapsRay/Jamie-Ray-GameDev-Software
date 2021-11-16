@@ -49,22 +49,7 @@ void gotoScreenPosition(short C, short R)
 }
 
 //Chooses random number between 0 and 1 to determine which item is picked up.
-void itemCheck()
-{
-	//srand(time(NULL));
-	itemNumber = rand() % 2;
-	if (itemNumber == 0)
-	{
-		inventory.push_back(potion);
-		itemStore.push_back(itemNumber);
-	}
-	else if (itemNumber == 1)
-	{
-		inventory.push_back(sword);
-		itemStore.push_back(itemNumber);
-	}
-}
-
+// 
 //New item chars will add appropriate item to inventory.
 void itemPickup(char thing)
 {

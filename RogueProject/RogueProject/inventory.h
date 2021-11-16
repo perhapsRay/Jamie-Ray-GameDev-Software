@@ -9,7 +9,6 @@ using namespace std;
 class inventory
 {
 public:
-
 	void itemCheck();
 	void inventoryScreen();
 
@@ -18,7 +17,7 @@ private:
 	string sword = "Sword.";
 	int itemNumber;
 	int itemnum;
-	vector<string> inventory;
-	vector<int> itemStore;
+	vector<string> bag;
+	vector<int> item;
 	vector<char> vItemChar;
 };

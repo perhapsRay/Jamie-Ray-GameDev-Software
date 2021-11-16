@@ -1,4 +1,6 @@
 #include "map.h"
+#include "inventory.h"
+#include "inventory.cpp"
 #include <iostream>
 #include <iostream>
 #include <string>
@@ -56,7 +58,7 @@ bool map::handleCollisions(int y, int x)
 		return true;
 		break;
 	case '?':
-		//itemCheck();
+		itemCheck();
 		return true;
 		break;
 	case '+':
