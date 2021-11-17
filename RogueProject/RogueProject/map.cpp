@@ -44,24 +44,16 @@ void map::renderEntity(player& p)
 	level[p.getplayerPositionY()][p.getplayerPositionX()] = p.getPlayerChar();
 }
 
-void renderEnemy(enemy& e)
+void map::renderEnemy(enemy& e)
 {
-	if (level[e.getEnemyPositionY()][e.getEnemyPositionX()] == '.')
-	{
 		gotoScreenPosition(e.getEnemyPositionX(), e.getEnemyPositionY());
 		std::cout << e.getEnemyChar();
 		level[e.getEnemyPositionY()][e.getEnemyPositionX()] = e.getEnemyChar();
-	}
-	else
-	{
-		renderEnemy();
-	}
 }
 
-bool map::handleCollisions(int y, int x, player p)
+bool map::handleCollisions(int y, int x, player p, enemy e)
 {
 	char nextMove = level[y][x];
-
 	switch (nextMove)
 	{
 	case '#':
@@ -82,27 +74,35 @@ bool map::handleCollisions(int y, int x, player p)
 		//itemPickup('/');
 		return true;
 		break;
+	case 'e':
+		p.combat(e, p);
+		return false;
+		break;
+	case '%':
+		//new_level();
+		return false;
+		break;
 	default:
 		return true;
 	}
 }
 
-void map::handleInput(player p)
+void map::handleInput(player& p, enemy& e)
 {
 	Sleep(120);
-	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(p.getplayerPositionY() - 1, p.getplayerPositionX(), p))
+	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(p.getplayerPositionY() - 1, p.getplayerPositionX(), p, e))
 	{
 		newPlayerPositionY = p.getplayerPositionY() - 1;
 	}
-	else if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(p.getplayerPositionY() + 1, p.getplayerPositionX(), p))
+	else if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(p.getplayerPositionY() + 1, p.getplayerPositionX(), p, e))
 	{
 		newPlayerPositionY = p.getplayerPositionY() + 1;
 	}
-	else if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() + 1, p))
+	else if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() + 1, p, e))
 	{
 		newPlayerPositionX = p.getplayerPositionX() + 1;
 	}
-	else if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() - 1, p))
+	else if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() - 1, p, e))
 	{
 		newPlayerPositionX = p.getplayerPositionX() - 1;
 	}

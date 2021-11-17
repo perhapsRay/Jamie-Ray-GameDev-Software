@@ -1,12 +1,13 @@
 #include "player.h"
 
-player::player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam)
+player::player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam, int damageParam)
 {
 	playerPositionX = posxParam;
 	playerPositionY = posyParam;
 	playerChar = charParam;
 	health = healthParam;
 	maxHealth = maxHealthParam;
+	damage = damageParam;
 }
 
 weapon Sword('/', "Short Sword", 1);
@@ -40,8 +41,16 @@ int player::getMaxHealth()
 {
 	return maxHealth;
 }
+int player::getDamage()
+{
+	return damage;
+}
+void player::setHealth(int healthParam)
+{
+	health = healthParam;
+}
 
-vector<item> &player::getInventory()
+vector<item> player::getInventory()
 {
 	return inventory;
 }
@@ -57,10 +66,20 @@ void player::itemCheck()
 	int itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
-		getInventory().push_back(Sword);
+		inventory.push_back(Sword);	
 	}
 	else if (itemNumber == 1)
 	{
-		getInventory().push_back(Healing);
+		inventory.push_back(Healing);
 	}
+}
+
+void player::combat(enemy& e, player& p)
+{
+	e.setHealth(e.getHealth() - damage);
+	gotoScreenPosition(2, MAXLEVELHEIGHT + 4);
+	std::cout << "Enemy: " << e.getHealth() << "/" << e.getMaxHealth();
+	p.setHealth(p.getHealth() - e.getDamage());
+	gotoScreenPosition(2, MAXLEVELHEIGHT + 3);
+	std::cout << "Health: " << p.getHealth() << "/" << p.getMaxHealth();
 }

@@ -39,14 +39,14 @@ map gameMap("map_2.txt");
 
 
 //Goes to screen position for printing of certain aspects in certain areas. (GUI ect)
-void gotoScreenPosition(short C, short R)
+/*void gotoScreenPosition(short C, short R)
 {
 	COORD xy;
 	xy.X = C;
 	xy.Y = R;
 	SetConsoleCursorPosition(
 		GetStdHandle(STD_OUTPUT_HANDLE), xy);
-}
+}*/
 
 //Chooses random number between 0 and 1 to determine which item is picked up.
 // 

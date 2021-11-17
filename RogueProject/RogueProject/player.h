@@ -3,24 +3,28 @@
 #include <vector>
 #include "Gameplay.h"
 #include "item.h"
+#include "enemy.h"
 using namespace std;
 
 class player
 {
 public:
-	player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam);
+	player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam, int damageParam);
 	int getplayerPositionX();
 	void setplayerPositionX(int playerPositionXParam);
 	int getplayerPositionY();
 	void setplayerPositionY(int playerPositionYParam);
 	char getPlayerChar();
-	vector<item> &getInventory();
+	int getDamage();
+	vector<item> getInventory();
 	void setInventory(vector<item> inventoryParam);
 	int getHealth();
+	void setHealth(int healthParam);
 	int getMaxHealth();
 	int getItemNumber();
 	void setItemNumber(int itemNumParam);
 	void itemCheck();
+	void combat(enemy& e, player& p);
 	//void handleInput();
 	//bool handleCollisions(int y, int x);
 	//void render();
@@ -32,5 +36,6 @@ private:
 	char playerChar;
 	int health;
 	int maxHealth;
+	int damage;
 	vector<item> inventory;
 };

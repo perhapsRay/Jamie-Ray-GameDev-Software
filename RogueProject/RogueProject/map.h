@@ -20,8 +20,8 @@ public:
 	void renderItem();
 	void renderEntity(player& p);
 	void renderEnemy(enemy& e);
-	bool handleCollisions(int y, int x, player p);
-	void handleInput(player p);
+	bool handleCollisions(int y, int x, player p, enemy e);
+	void handleInput(player& p, enemy& e);
 	
 private:
 	static const int LEVELWIDTH = 100;

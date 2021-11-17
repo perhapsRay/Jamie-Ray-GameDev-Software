@@ -1,5 +1,14 @@
 #include "interface.h"
 
+void gotoScreenPosition(short C, short R)
+{
+	COORD xy;
+	xy.X = C;
+	xy.Y = R;
+	SetConsoleCursorPosition(
+		GetStdHandle(STD_OUTPUT_HANDLE), xy);
+}
+
 void inventoryScreen(player p)
 {
 	system("CLS");

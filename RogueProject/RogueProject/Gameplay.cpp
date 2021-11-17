@@ -7,8 +7,8 @@
 #include "map.h"
 using namespace std;
 
-player gamePlayer('@', 5, 5, 20, 25);
-enemy gameEnemy('e', 10, 10, 20);
+player gamePlayer('@', 5, 5, 20, 25, 5);
+enemy gameEnemy('e', 32, 2, 20, 20, 2);
 unsigned int newPlayerPositionX;
 unsigned int newPlayerPositionY;
 
@@ -40,18 +40,17 @@ void main()
 	map1.renderEntity(gamePlayer);
 	map1.readMap();
 	map1.renderItem();
+	renderGUI();
 
 	while (true)
 	{
-		map1.handleInput(gamePlayer);
+		map1.handleInput(gamePlayer, gameEnemy);
 
 		map1.renderMap();
 
 		map1.renderEntity(gamePlayer);
 
 		map1.renderEnemy(gameEnemy);
-
-		renderGUI();
 
 		set_cursor(false);
 	}
