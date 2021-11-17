@@ -34,3 +34,11 @@ public:
 private:
 	int healing = 5;
 };
+
+class armour : public item
+{
+public:
+	armour(char modelParam, string nameParam, int IDParam);
+private:
+	int defence = 5;
+};

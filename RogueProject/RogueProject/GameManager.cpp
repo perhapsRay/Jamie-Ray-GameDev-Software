@@ -44,11 +44,11 @@ void gamemanager::renderEntity(player& p)
 	level[p.getplayerPositionY()][p.getplayerPositionX()] = p.getPlayerChar();
 }
 
-void gamemanager::renderEnemy(enemy& e)
+void gamemanager::renderNPC(npc& n)
 {
-		gotoScreenPosition(e.getEnemyPositionX(), e.getEnemyPositionY());
-		std::cout << e.getEnemyChar();
-		level[e.getEnemyPositionY()][e.getEnemyPositionX()] = e.getEnemyChar();
+		gotoScreenPosition(n.getNPCPositionX(), n.getNPCPositionY());
+		std::cout << n.getModel();
+		level[n.getNPCPositionY()][n.getNPCPositionX()] = n.getModel();
 }
 
 bool gamemanager::handleCollisions(int y, int x, player p, enemy e)
@@ -76,6 +76,10 @@ bool gamemanager::handleCollisions(int y, int x, player p, enemy e)
 		break;
 	case 'e':
 		p.combat(e, p);
+		return false;
+		break;
+	case 'M':
+		//shop();
 		return false;
 		break;
 	case '%':

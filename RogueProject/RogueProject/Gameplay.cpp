@@ -3,14 +3,18 @@
 #include <string>
 #include <vector>
 #include "player.h"
-#include "enemy.h"
+#include "npc.h"
 #include "GameManager.h"
 using namespace std;
 
 player gamePlayer('@', 5, 5, 20, 25, 5);
 enemy gameEnemy('e', 32, 2, 20, 20, 2);
+merchant shop('M', 2, 1, 100);
 unsigned int newPlayerPositionX;
 unsigned int newPlayerPositionY;
+const int BUFFSIZE = 100;
+const int MAXLEVELWIDTH = 100;
+const int MAXLEVELHEIGHT = 20;
 
 void set_cursor(bool visible) 
 {
@@ -50,7 +54,8 @@ void main()
 
 		manager.renderEntity(gamePlayer);
 
-		manager.renderEnemy(gameEnemy);
+		manager.renderNPC(gameEnemy);
+		manager.renderNPC(shop);
 
 		set_cursor(false);
 	}

@@ -8,6 +8,7 @@ player::player(char charParam, int posxParam, int posyParam, int healthParam, in
 	health = healthParam;
 	maxHealth = maxHealthParam;
 	damage = damageParam;
+	//gold = goldParam;
 }
 
 weapon Sword('/', "Short Sword", 1);
@@ -49,6 +50,14 @@ void player::setHealth(int healthParam)
 {
 	health = healthParam;
 }
+/*int player::getGold()
+{
+	return gold;
+}
+void player::setGold(int goldParam)
+{
+	gold = goldParam;
+}*/
 
 vector<item> player::getInventory()
 {

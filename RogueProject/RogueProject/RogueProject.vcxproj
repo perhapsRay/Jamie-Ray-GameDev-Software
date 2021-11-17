@@ -139,24 +139,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="interface.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="GameManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="enemy.h" />
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="GameManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="npc.h" />
     <ClInclude Include="player.h" />
   </ItemGroup>
   <ItemGroup>

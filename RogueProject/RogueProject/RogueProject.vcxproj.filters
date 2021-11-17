@@ -38,7 +38,7 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files\Old</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
+    <ClCompile Include="npc.cpp">
       <Filter>Source Files\Rogue</Filter>
     </ClCompile>
   </ItemGroup>
@@ -58,7 +58,7 @@
     <ClInclude Include="player.h">
       <Filter>Source Files\Rogue</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
+    <ClInclude Include="npc.h">
       <Filter>Source Files\Rogue</Filter>
     </ClInclude>
   </ItemGroup>

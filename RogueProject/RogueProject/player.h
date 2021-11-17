@@ -3,7 +3,7 @@
 #include <vector>
 #include "Gameplay.h"
 #include "item.h"
-#include "enemy.h"
+#include "npc.h"
 using namespace std;
 
 class player
@@ -16,8 +16,6 @@ public:
 	void setplayerPositionY(int playerPositionYParam);
 	char getPlayerChar();
 	int getDamage();
-	vector<item> getInventory();
-	void setInventory(vector<item> inventoryParam);
 	int getHealth();
 	void setHealth(int healthParam);
 	int getMaxHealth();
@@ -25,10 +23,10 @@ public:
 	void setItemNumber(int itemNumParam);
 	void itemCheck();
 	void combat(enemy& e, player& p);
-	//void handleInput();
-	//bool handleCollisions(int y, int x);
-	//void render();
-	
+	//int getGold();
+	//void setGold(int goldParam);
+	vector<item> getInventory();
+	void setInventory(vector<item> inventoryParam);
 
 private:
 	int playerPositionX;
@@ -37,5 +35,6 @@ private:
 	int health;
 	int maxHealth;
 	int damage;
+	//int gold;
 	vector<item> inventory;
 };

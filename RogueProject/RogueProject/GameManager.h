@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "player.h"
-#include "enemy.h"
+#include "npc.h"
 using namespace std;
 
 class gamemanager
@@ -19,7 +19,7 @@ public:
 	void renderMap();
 	void renderItem();
 	void renderEntity(player& p);
-	void renderEnemy(enemy& e);
+	void renderNPC(npc& n);
 	bool handleCollisions(int y, int x, player p, enemy e);
 	void handleInput(player& p, enemy& e);
 	

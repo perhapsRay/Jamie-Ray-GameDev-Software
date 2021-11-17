@@ -21,6 +21,12 @@ potion::potion(char modelParam, string nameParam, int IDParam)
 
 }
 
+armour::armour(char modelParam, string nameParam, int IDParam)
+	: item(modelParam, nameParam, IDParam)
+{
+
+}
+
 char item::getModel()
 {
 	return model;
