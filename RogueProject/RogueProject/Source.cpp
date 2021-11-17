@@ -107,7 +107,7 @@ bool handleCollisions(int y, int x)
 		return true;
 		break;
 	case '?':
-		itemCheck();
+		//itemCheck();
 		return true;
 		break;
 	case '+':

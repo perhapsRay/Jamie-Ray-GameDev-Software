@@ -1,6 +1,6 @@
 #include "map.h"
 #include "inventory.h"
-#include "inventory.cpp"
+#include "interface.h"
 #include <iostream>
 #include <iostream>
 #include <string>
@@ -45,7 +45,7 @@ void map::renderEntity(player& p)
 	level[p.getplayerPositionY()][p.getplayerPositionX()] = p.getPlayerChar();
 }
 
-bool map::handleCollisions(int y, int x)
+bool map::handleCollisions(int y, int x, player p)
 {
 	char nextMove = level[y][x];
 
@@ -58,7 +58,7 @@ bool map::handleCollisions(int y, int x)
 		return true;
 		break;
 	case '?':
-		itemCheck();
+		p.itemCheck();
 		return true;
 		break;
 	case '+':
@@ -77,28 +77,26 @@ bool map::handleCollisions(int y, int x)
 void map::handleInput(player p)
 {
 	Sleep(120);
-	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(p.getplayerPositionY() - 1, p.getplayerPositionX()))
+	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(p.getplayerPositionY() - 1, p.getplayerPositionX(), p))
 	{
 		newPlayerPositionY = p.getplayerPositionY() - 1;
 	}
-	else if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(p.getplayerPositionY() + 1, p.getplayerPositionX()))
+	else if (GetKeyState(VK_DOWN) & 0x8000 && handleCollisions(p.getplayerPositionY() + 1, p.getplayerPositionX(), p))
 	{
 		newPlayerPositionY = p.getplayerPositionY() + 1;
 	}
-	else if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() + 1))
+	else if (GetKeyState(VK_RIGHT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() + 1, p))
 	{
 		newPlayerPositionX = p.getplayerPositionX() + 1;
 	}
-	else if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() - 1))
+	else if (GetKeyState(VK_LEFT) & 0x8000 && handleCollisions(p.getplayerPositionY(), p.getplayerPositionX() - 1, p))
 	{
 		newPlayerPositionX = p.getplayerPositionX() - 1;
 	}
-
-	/*if (GetKeyState('I') & 0x8000)
+	if (GetKeyState('I') & 0x8000)
 	{
-		inventoryScreen();
-		break;
-	}*/
+		inventoryScreen(p);
+	}
 }
 
 void map::readMap()

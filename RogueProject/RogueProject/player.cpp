@@ -1,6 +1,4 @@
 #include "player.h"
-#include <iostream>
-
 
 player::player(char charParam, int posxParam, int posyParam, int healthParam, int maxHealthParam)
 {
@@ -10,6 +8,9 @@ player::player(char charParam, int posxParam, int posyParam, int healthParam, in
 	health = healthParam;
 	maxHealth = maxHealthParam;
 }
+
+weapon Sword('/', "Short Sword", 1);
+potion Healing('+', "Potion of Healing", 2);
 
 int player::getplayerPositionX()
 {
@@ -38,4 +39,28 @@ int player::getHealth()
 int player::getMaxHealth()
 {
 	return maxHealth;
+}
+
+vector<item> player::getInventory()
+{
+	return* inventory;
+}
+
+/*void player::setInventory(vector<item> inventoryParam)
+{
+	inventory = inventoryParam;
+}*/
+
+void player::itemCheck()
+{
+	srand(time(NULL));
+	int itemNumber = rand() % 2;
+	if (itemNumber == 0)
+	{
+		inventory->push_back(Sword);
+	}
+	else if (itemNumber == 1)
+	{
+		inventory->push_back(Healing);
+	}
 }

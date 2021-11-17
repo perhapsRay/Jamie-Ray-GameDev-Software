@@ -1,9 +1,8 @@
 #pragma once
 #include <windows.h>
-#include <iostream>
-#include <string>
 #include <vector>
 #include "Gameplay.h"
+#include "item.h"
 using namespace std;
 
 class player
@@ -15,8 +14,13 @@ public:
 	int getplayerPositionY();
 	void setplayerPositionY(int playerPositionYParam);
 	char getPlayerChar();
+	vector<item> getInventory();
+	//void setInventory(vector<item> inventoryParam);
 	int getHealth();
 	int getMaxHealth();
+	int getItemNumber();
+	void setItemNumber(int itemNumParam);
+	void itemCheck();
 	//void handleInput();
 	//bool handleCollisions(int y, int x);
 	//void render();
@@ -28,4 +32,5 @@ private:
 	char playerChar;
 	int health;
 	int maxHealth;
+	vector<item>* inventory;
 };

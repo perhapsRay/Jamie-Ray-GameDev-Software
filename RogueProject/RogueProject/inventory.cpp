@@ -1,7 +1,7 @@
 #include "inventory.h"
 #include <iostream>
 
-void inventory::itemCheck()
+/*void inventory::itemCheck()
 {
 	srand(time(NULL));
 	itemNumber = rand() % 2;
@@ -15,7 +15,7 @@ void inventory::itemCheck()
 		bag.push_back(sword);
 		item.push_back(itemNumber);
 	}
-}
+}*/
 
 /*void inventory::inventoryScreen()
 {

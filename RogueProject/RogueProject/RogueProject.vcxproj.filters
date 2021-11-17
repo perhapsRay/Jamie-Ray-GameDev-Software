@@ -26,6 +26,12 @@
     <ClCompile Include="Gameplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -38,6 +44,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Gameplay.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

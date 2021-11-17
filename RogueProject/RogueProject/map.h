@@ -1,7 +1,5 @@
 #pragma once
 #include <windows.h>
-#include <iostream>
-#include <string>
 #include <vector>
 #include <fstream>
 #include <sstream>
@@ -20,7 +18,7 @@ public:
 	void renderMap();
 	void renderItem();
 	void renderEntity(player& p);
-	bool handleCollisions(int y, int x);
+	bool handleCollisions(int y, int x, player p);
 	void handleInput(player p);
 	
 private:
