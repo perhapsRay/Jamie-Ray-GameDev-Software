@@ -7,10 +7,10 @@
 #include "enemy.h"
 using namespace std;
 
-class map
+class gamemanager
 {
 public:
-	map(string levelName);
+	gamemanager(string levelName);
 	int getLevelWidth();
 	void setLevelWidth(int widthParam);
 	int getLevelHeight();

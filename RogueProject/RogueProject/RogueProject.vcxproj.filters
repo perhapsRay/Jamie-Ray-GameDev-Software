@@ -29,7 +29,7 @@
     <ClCompile Include="item.cpp">
       <Filter>Source Files\Rogue</Filter>
     </ClCompile>
-    <ClCompile Include="map.cpp">
+    <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\Rogue</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
@@ -52,7 +52,7 @@
     <ClInclude Include="item.h">
       <Filter>Source Files\Rogue</Filter>
     </ClInclude>
-    <ClInclude Include="map.h">
+    <ClInclude Include="GameManager.h">
       <Filter>Source Files\Rogue</Filter>
     </ClInclude>
     <ClInclude Include="player.h">

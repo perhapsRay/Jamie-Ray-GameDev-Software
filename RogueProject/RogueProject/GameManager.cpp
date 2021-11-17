@@ -1,4 +1,4 @@
-#include "map.h"
+#include "gamemanager.h"
 #include "interface.h"
 #include <iostream>
 #include <iostream>
@@ -7,29 +7,29 @@
 #include <fstream>
 #include <sstream>
 
-int map::getLevelWidth()
+int gamemanager::getLevelWidth()
 {
 	return levelWidth;
 }
-void map::setLevelWidth(int widthParam)
+void gamemanager::setLevelWidth(int widthParam)
 {
 	levelWidth = widthParam;
 }
-int map::getLevelHeight()
+int gamemanager::getLevelHeight()
 {
 	return levelHeight;
 }
-void map::setLevelHeight(int heightParam)
+void gamemanager::setLevelHeight(int heightParam)
 {
 	levelHeight = heightParam;
 }
 
-map::map(string levelName)
+gamemanager::gamemanager(string levelName)
 {
 	this->levelName = levelName;
 }
 
-void map::renderEntity(player& p)
+void gamemanager::renderEntity(player& p)
 {
 	//Blank old player position.
 	gotoScreenPosition(p.getplayerPositionX(), p.getplayerPositionY());
@@ -44,14 +44,14 @@ void map::renderEntity(player& p)
 	level[p.getplayerPositionY()][p.getplayerPositionX()] = p.getPlayerChar();
 }
 
-void map::renderEnemy(enemy& e)
+void gamemanager::renderEnemy(enemy& e)
 {
 		gotoScreenPosition(e.getEnemyPositionX(), e.getEnemyPositionY());
 		std::cout << e.getEnemyChar();
 		level[e.getEnemyPositionY()][e.getEnemyPositionX()] = e.getEnemyChar();
 }
 
-bool map::handleCollisions(int y, int x, player p, enemy e)
+bool gamemanager::handleCollisions(int y, int x, player p, enemy e)
 {
 	char nextMove = level[y][x];
 	switch (nextMove)
@@ -87,7 +87,7 @@ bool map::handleCollisions(int y, int x, player p, enemy e)
 	}
 }
 
-void map::handleInput(player& p, enemy& e)
+void gamemanager::handleInput(player& p, enemy& e)
 {
 	Sleep(120);
 	if (GetKeyState(VK_UP) & 0x8000 && handleCollisions(p.getplayerPositionY() - 1, p.getplayerPositionX(), p, e))
@@ -112,7 +112,7 @@ void map::handleInput(player& p, enemy& e)
 	}
 }
 
-void map::readMap()
+void gamemanager::readMap()
 {
 	char buff[BUFFSIZE];
 	string line;
@@ -148,7 +148,7 @@ void map::readMap()
 	infile.close();
 }
 
-void map::renderMap()
+void gamemanager::renderMap()
 {
 	gotoScreenPosition(0, 0);
 	for (int i = 0; i < levelHeight; i++)
@@ -161,7 +161,7 @@ void map::renderMap()
 	}
 }
 
-void map::renderItem()
+void gamemanager::renderItem()
 {
 	srand((unsigned int)time(NULL));
 	for (int j = 0; j < 4; j++)

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "player.h"
-#include "map.h"
+#include "gamemanager.h"
 using namespace std;
 
 
@@ -35,7 +35,7 @@ const int MAXLEVELWIDTH = 100;
 const int MAXLEVELHEIGHT = 20;
 char currentMap[MAXLEVELHEIGHT][MAXLEVELWIDTH];
 //player gamePlayer('@', 5, 5);
-map gameMap("map_2.txt");
+//map gameMap("map_2.txt");
 
 
 //Goes to screen position for printing of certain aspects in certain areas. (GUI ect)

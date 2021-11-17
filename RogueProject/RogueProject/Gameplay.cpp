@@ -4,7 +4,7 @@
 #include <vector>
 #include "player.h"
 #include "enemy.h"
-#include "map.h"
+#include "GameManager.h"
 using namespace std;
 
 player gamePlayer('@', 5, 5, 20, 25, 5);
@@ -32,25 +32,25 @@ void main()
 	RECT r;
 	GetWindowRect(console, &r);
 	MoveWindow(console, r.left, r.top, 800, 800, TRUE);
-	map map1("map_1.txt");
+	gamemanager manager("map_1.txt");
 
 	newPlayerPositionX = gamePlayer.getplayerPositionX();
 	newPlayerPositionY = gamePlayer.getplayerPositionY();
 	//Initial player render.
-	map1.renderEntity(gamePlayer);
-	map1.readMap();
-	map1.renderItem();
+	manager.renderEntity(gamePlayer);
+	manager.readMap();
+	manager.renderItem();
 	renderGUI();
 
 	while (true)
 	{
-		map1.handleInput(gamePlayer, gameEnemy);
+		manager.handleInput(gamePlayer, gameEnemy);
 
-		map1.renderMap();
+		manager.renderMap();
 
-		map1.renderEntity(gamePlayer);
+		manager.renderEntity(gamePlayer);
 
-		map1.renderEnemy(gameEnemy);
+		manager.renderEnemy(gameEnemy);
 
 		set_cursor(false);
 	}

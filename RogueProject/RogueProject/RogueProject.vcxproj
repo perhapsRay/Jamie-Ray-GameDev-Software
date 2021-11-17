@@ -145,7 +145,7 @@
     <ClCompile Include="item.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="map.cpp">
+    <ClCompile Include="GameManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
@@ -154,7 +154,7 @@
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="interface.h" />
     <ClInclude Include="item.h" />
-    <ClInclude Include="map.h">
+    <ClInclude Include="GameManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="player.h" />
