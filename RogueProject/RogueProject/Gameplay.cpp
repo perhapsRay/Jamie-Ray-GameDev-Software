@@ -3,10 +3,12 @@
 #include <string>
 #include <vector>
 #include "player.h"
+#include "enemy.h"
 #include "map.h"
 using namespace std;
 
 player gamePlayer('@', 5, 5, 20, 25);
+enemy gameEnemy('e', 10, 10, 20);
 unsigned int newPlayerPositionX;
 unsigned int newPlayerPositionY;
 
@@ -46,6 +48,8 @@ void main()
 		map1.renderMap();
 
 		map1.renderEntity(gamePlayer);
+
+		map1.renderEnemy(gameEnemy);
 
 		renderGUI();
 

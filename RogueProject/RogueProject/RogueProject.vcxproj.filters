@@ -9,56 +9,65 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Rogue">
+      <UniqueIdentifier>{c7fccb83-aace-4b19-ba37-f0b7ff84437d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Old">
+      <UniqueIdentifier>{e8114fc1-e757-46bd-95b9-54da0c2c7ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Maps">
+      <UniqueIdentifier>{65142931-b10b-46d1-9cd1-e17ac4e5f26c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="inventory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Gameplay.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
     </ClCompile>
     <ClCompile Include="interface.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files\Rogue</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Source Files\Rogue</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files\Old</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>Source Files\Rogue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="map.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inventory.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Gameplay.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
     </ClInclude>
     <ClInclude Include="interface.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
     </ClInclude>
     <ClInclude Include="item.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rogue</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Source Files\Rogue</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Source Files\Rogue</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>Source Files\Rogue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="map_1.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Maps</Filter>
     </Text>
     <Text Include="map_2.txt">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Maps</Filter>
     </Text>
   </ItemGroup>
 </Project>

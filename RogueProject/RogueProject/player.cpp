@@ -41,15 +41,15 @@ int player::getMaxHealth()
 	return maxHealth;
 }
 
-vector<item> player::getInventory()
+vector<item> &player::getInventory()
 {
-	return* inventory;
+	return inventory;
 }
 
-/*void player::setInventory(vector<item> inventoryParam)
+void player::setInventory(vector<item> inventoryParam)
 {
 	inventory = inventoryParam;
-}*/
+}
 
 void player::itemCheck()
 {
@@ -57,10 +57,10 @@ void player::itemCheck()
 	int itemNumber = rand() % 2;
 	if (itemNumber == 0)
 	{
-		inventory->push_back(Sword);
+		getInventory().push_back(Sword);
 	}
 	else if (itemNumber == 1)
 	{
-		inventory->push_back(Healing);
+		getInventory().push_back(Healing);
 	}
 }

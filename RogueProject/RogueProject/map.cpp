@@ -1,5 +1,4 @@
 #include "map.h"
-#include "inventory.h"
 #include "interface.h"
 #include <iostream>
 #include <iostream>
@@ -43,6 +42,20 @@ void map::renderEntity(player& p)
 	p.setplayerPositionX(newPlayerPositionX);
 	p.setplayerPositionY(newPlayerPositionY);
 	level[p.getplayerPositionY()][p.getplayerPositionX()] = p.getPlayerChar();
+}
+
+void renderEnemy(enemy& e)
+{
+	if (level[e.getEnemyPositionY()][e.getEnemyPositionX()] == '.')
+	{
+		gotoScreenPosition(e.getEnemyPositionX(), e.getEnemyPositionY());
+		std::cout << e.getEnemyChar();
+		level[e.getEnemyPositionY()][e.getEnemyPositionX()] = e.getEnemyChar();
+	}
+	else
+	{
+		renderEnemy();
+	}
 }
 
 bool map::handleCollisions(int y, int x, player p)

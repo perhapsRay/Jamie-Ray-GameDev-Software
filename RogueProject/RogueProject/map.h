@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "player.h"
+#include "enemy.h"
 using namespace std;
 
 class map
@@ -18,6 +19,7 @@ public:
 	void renderMap();
 	void renderItem();
 	void renderEntity(player& p);
+	void renderEnemy(enemy& e);
 	bool handleCollisions(int y, int x, player p);
 	void handleInput(player p);
 	

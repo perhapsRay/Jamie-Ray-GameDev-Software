@@ -17,7 +17,7 @@ string potion = "Health potion.";
 string sword = "Sword.";
 unsigned int itemNumber;
 unsigned int itemnum;
-vector<string> inventory;
+//vector<string> inventory;
 vector<int> itemStore;
 vector<char> vItemChar;
 unsigned int maxHealth = 25;
@@ -56,11 +56,11 @@ void itemPickup(char thing)
 	switch (thing)
 	{
 	case '+':
-		inventory.push_back(potion);
+		//inventory.push_back(potion);
 		itemStore.push_back(0);
 		break;
 	case '/':
-		inventory.push_back(sword);
+		//inventory.push_back(sword);
 		itemStore.push_back(1);
 		break;
 	}

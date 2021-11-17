@@ -14,8 +14,8 @@ public:
 	int getplayerPositionY();
 	void setplayerPositionY(int playerPositionYParam);
 	char getPlayerChar();
-	vector<item> getInventory();
-	//void setInventory(vector<item> inventoryParam);
+	vector<item> &getInventory();
+	void setInventory(vector<item> inventoryParam);
 	int getHealth();
 	int getMaxHealth();
 	int getItemNumber();
@@ -32,5 +32,5 @@ private:
 	char playerChar;
 	int health;
 	int maxHealth;
-	vector<item>* inventory;
+	vector<item> inventory;
 };

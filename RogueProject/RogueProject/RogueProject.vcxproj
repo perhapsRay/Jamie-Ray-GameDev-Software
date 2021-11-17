@@ -139,9 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="Gameplay.cpp" />
     <ClCompile Include="interface.cpp" />
-    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -150,9 +150,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="Gameplay.h" />
     <ClInclude Include="interface.h" />
-    <ClInclude Include="inventory.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="map.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
